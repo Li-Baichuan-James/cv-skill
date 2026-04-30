@@ -1,0 +1,18 @@
+\usepackage[margin=0.65in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{setspace}
+\setmainfont{Latin Modern Roman}
+\definecolor{Accent}{HTML}{1F4E79}
+\definecolor{Muted}{HTML}{5B6B7A}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.2em,itemsep=0.2em,topsep=0.2em}
+\setstretch{1.02}
+\titleformat{\section}{\large\bfseries\color{Accent}}{}{0em}{}[\vspace{-0.35em}\titlerule]
+\newcommand{\resumesection}[1]{\vspace{0.5em}\section*{#1}\vspace{-0.35em}}
+\newcommand{\placeholder}[1]{\textcolor{Muted}{\texttt{#1}}}

@@ -1,0 +1,17 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Generated PDFs should live in explicit example/output folders when intended.
+templates/**/*.pdf
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,25 @@
+\documentclass[10pt]{article}
+\input{macros.tex}
+\begin{document}
+{\LARGE\textbf{\placeholder{name}}}\\
+\placeholder{email} \quad|\quad \placeholder{phone} \quad|\quad \placeholder{linkedin}
+
+\resumesection{Summary}
+\placeholder{summary}
+
+\resumesection{Experience}
+\textbf{\placeholder{experience[0].title}} \hfill \placeholder{experience[0].dates}\\
+\placeholder{experience[0].company}
+\begin{itemize}
+  \item Delivery-focused bullet derived from \placeholder{experience[0].summary}.
+\end{itemize}
+
+\resumesection{Projects}
+\textbf{\placeholder{projects[0].name}}
+\begin{itemize}
+  \item Outcome-focused bullet derived from \placeholder{projects[0].summary}.
+\end{itemize}
+
+\resumesection{Skills}
+\placeholder{skills[0]}, \placeholder{skills[1]}, \placeholder{skills[2]}, \placeholder{skills[3]}
+\end{document}

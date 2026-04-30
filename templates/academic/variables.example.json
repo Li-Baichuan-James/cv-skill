@@ -1,0 +1,35 @@
+{
+  "name": "Candidate Name",
+  "email": "email@example.com",
+  "location": "City, Region",
+  "website": "https://example.com",
+  "education": [
+    {
+      "institution": "University Name",
+      "degree": "BSc in Subject",
+      "graduation": "2028"
+    }
+  ],
+  "research_experience": [
+    {
+      "title": "Research Assistant",
+      "organization": "Lab Name",
+      "dates": "2026-2028",
+      "summary": "Studied a focused problem and implemented supporting experiments or tooling."
+    }
+  ],
+  "publications": [
+    {
+      "authors": "Candidate Name, Collaborator Name",
+      "title": "Paper Title",
+      "venue": "Conference or Journal",
+      "year": "2027"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Project Title",
+      "summary": "Short description of the technical work and outcome."
+    }
+  ]
+}
