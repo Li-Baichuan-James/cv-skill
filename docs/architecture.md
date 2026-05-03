@@ -12,8 +12,8 @@
 1. `resume-crafter` creates a fresh workspace and selects the resume path.
 2. `resume-intake-and-extraction` normalizes chat, `.docx`, `.pdf`, or image input into traceable working notes and `work/claim-source-map.md`.
 3. If `missing-blocking` facts are missing or unsafe, the flow stops for targeted clarification; otherwise uncertainty is classified as `needs-confirmation` or `omitted-unresolved`.
-4. `resume-authoring-and-assembly` chooses industry ATS, industry photo, research ATS, or Chinese standard template and writes the working LaTeX draft.
-5. `resume-review-and-delivery` checks factual safety, ATS or academic presentation risk, and build readiness.
+4. `resume-authoring-and-assembly` chooses industry ATS, industry photo, research ATS, or Chinese standard template, copies `templates/common/resume.cls` to `work/common/resume.cls`, writes `work/resume.tex` with `\documentclass{common/resume}`, and updates the claim map for final rendered claims.
+5. `resume-review-and-delivery` checks factual safety, ATS or academic presentation risk, visible template-note cleanup, and workspace-local build readiness.
 6. Final artifacts are delivered as `output/resume.tex` and `output/resume.pdf`.
 
 ## Uncertainty Thresholds
@@ -33,3 +33,7 @@ Resume-content decisions belong to the four bundled skills and, when needed, ups
 ## Design Intent
 
 The package favors disciplined handoffs over free-form generation: extract first, map claims to sources, draft only from supported facts, and finalize only after review and a clean local XeLaTeX build.
+
+## Workspace-Local Template Contract
+
+Generated resumes must be reproducible from the run workspace. Template variants provide skeletons, but final drafts should keep `work/common/resume.cls` beside `work/resume.tex` and use `\documentclass{common/resume}` instead of relative paths back into this repository.

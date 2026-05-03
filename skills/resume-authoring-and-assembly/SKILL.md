@@ -16,6 +16,8 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 - Preserve factual meaning and source limits
 - Decide section order and compression strategy
 - Write the working LaTeX draft to `work/resume.tex`
+- Copy `templates/common/resume.cls` into `work/common/resume.cls` before compiling or handing off for review
+- Update `work/claim-source-map.md` after drafting so every final factual claim in `work/resume.tex` has a `resolved` entry
 
 ## Authoring Rules
 
@@ -26,6 +28,19 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 - One page is preferred when readable; two pages are acceptable when compression would materially damage quality or target fit.
 - Research resumes prioritize education, research, selected publications, selected projects, and scholarly traceability. Do not create a long academic CV.
 - Industry resumes prioritize impact, delivery, stack clarity, and ATS readability.
+
+## Template Assembly
+
+- Use `\documentclass{common/resume}` in `work/resume.tex`.
+- Ensure the workspace contains `work/common/resume.cls`; do not rely on relative paths back into the repository's `templates/` directory.
+- Keep `output/resume.tex` reproducible from inside the generated workspace.
+
+## Claim Map Closure
+
+- Treat the intake claim map as a starting point, not a final artifact.
+- After writing final bullets and sections, compare `work/resume.tex` against `work/claim-source-map.md`.
+- Add or revise rows so every final contact line, role, employer, date, degree, publication, skill grouping, project description, and bullet claim maps to source material with `resolved` state.
+- Keep `needs-confirmation` and `omitted-unresolved` rows only for working context or documented omissions; they must not appear in final prose.
 
 ## ATS And Photo Handling
 

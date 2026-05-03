@@ -1,4 +1,4 @@
-## Scenario: Scanned CV source with low-confidence extraction
+## Scenario: Scanned resume source with low-confidence extraction
 
 User situation:
 - The user provides a scanned PDF as the main source for resume content.

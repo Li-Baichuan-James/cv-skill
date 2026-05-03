@@ -18,3 +18,8 @@ Thumbs.db
 
 # Local development worktrees
 .worktrees/
+
+# Private local font inputs; do not publish without license review.
+templates/common/fonts/
+resume-workspace-*/
+**/work/common/fonts/

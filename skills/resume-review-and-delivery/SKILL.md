@@ -22,10 +22,12 @@ If any are missing, return a blocker instead of finalizing.
 
 ## Review Checklist
 
-- every factual claim is supported by source material or clearly marked for confirmation
+- every final factual claim is supported by a `resolved` entry in `work/claim-source-map.md`
 - no `[confirm]` markers remain in a version presented as final
 - no `\placeholder{...}` tokens or stock template bullets remain in a version presented as final
 - no `missing-blocking` claims remain in `work/claim-source-map.md`
+- no `needs-confirmation` or `omitted-unresolved` claim appears in final resume prose
+- no visible operator guidance, template notes, or non-ATS warnings remain in final resume prose
 - wording is professional and internally consistent
 - ATS, photo, language, and layout risks are called out when relevant
 - page count fits the target context
@@ -33,7 +35,8 @@ If any are missing, return a blocker instead of finalizing.
 
 ## Build Requirements
 
-- Compile `work/resume.tex` with XeLaTeX into `output/resume.pdf`
+- Compile `work/resume.tex` with XeLaTeX from the generated workspace, not from the repository template directory
+- Require `work/common/resume.cls` and `\documentclass{common/resume}` so the build is workspace-local
 - Copy final source into `output/resume.tex`
 - Preserve review notes and build logs under `work/`
 - Keep all outputs inside the current workspace folder

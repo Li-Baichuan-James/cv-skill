@@ -22,7 +22,7 @@ Resume Crafter does not target long academic CVs. If a user asks for one, the wo
 
 - facts are extracted and labeled before drafting
 - blocking facts stop the flow; non-blocking uncertainty stays labeled instead of guessed
-- every final claim is mapped in `work/claim-source-map.md`
+- every final claim is mapped to a `resolved` entry in `work/claim-source-map.md`
 - generated work stays inside a fresh workspace
 - final delivery targets `output/resume.tex` and `output/resume.pdf`
 
@@ -43,6 +43,8 @@ All templates are XeLaTeX skeletons for the agent to fill from confirmed facts. 
 resume-workspace-YYYYMMDD-HHMMSS/
   input/
   work/
+    common/
+      resume.cls
     extracted.md
     requirements-summary.md
     claim-source-map.md
@@ -53,6 +55,8 @@ resume-workspace-YYYYMMDD-HHMMSS/
     resume.tex
     resume.pdf
 ```
+
+Generated `work/resume.tex` should use `\documentclass{common/resume}` and compile from the generated workspace so final source is reproducible without the repository's relative template paths.
 
 ## Repository Layout
 

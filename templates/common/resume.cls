@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{resume}[2026/05/03 Lightweight resume class]
+\ProvidesClass{common/resume}[2026/05/03 Lightweight resume class]
 \LoadClass[10pt]{article}
 
 \RequirePackage[a4paper,margin=0.62in,nohead]{geometry}

@@ -52,7 +52,7 @@ Do these steps:
 2. Keep the full Source repo available as the asset root for templates, docs, examples, and tests.
 3. Check `xelatex --version` and report whether PDF builds are available.
 4. Verify the installed skills have valid `SKILL.md` frontmatter.
-5. Run a dry verification using `examples/inputs/sample-industry-resume.md`: the workflow should create input/work/output folders, require a claim-source map, avoid photos for ATS, and target output/resume.tex plus output/resume.pdf.
+5. Run a dry verification using `examples/inputs/sample-industry-resume.md`: the workflow should create input/work/output folders, copy `templates/common/resume.cls` to `work/common/resume.cls`, require a claim-source map, avoid photos for ATS, and target output/resume.tex plus output/resume.pdf.
 
 Do not modify source resume facts or invent missing details during verification.
 ```
@@ -80,7 +80,7 @@ Run these checks:
 If `pandoc` is missing, conversion and preprocessing workflows may fail.
 If `xelatex` is missing, final PDF generation will fail.
 
-Chinese templates require XeLaTeX plus CJK fonts. The repository includes Noto Sans SC configuration guidance, but it does not vendor Adobe fonts or other copyrighted font files.
+Chinese templates require XeLaTeX plus CJK fonts. Prefer system-installed CJK fonts. The repository includes optional Noto Sans SC configuration guidance, but it does not vendor Adobe fonts, Noto font binaries, or other font files.
 
 Also install whatever the upstream `docx` and `pdf` skills require in your environment.
 
@@ -93,6 +93,7 @@ For screenshot or image-only resumes, make sure your host platform can already r
 3. Confirm it creates `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md`.
 4. Confirm it stops for `missing-blocking` identity, role, date-range, chronology, publication, or metric facts that would make the resume misleading.
 5. Confirm it chooses industry, research, Chinese standard, or photo/visual mode intentionally.
-6. Confirm it produces `output/resume.tex` and `output/resume.pdf` when local build tooling is available.
-7. Confirm non-blocking uncertainty is marked as `needs-confirmation` or `omitted-unresolved`, not guessed into final bullets.
-8. Confirm it does not use unrelated content-making skills during the run.
+6. Confirm generated `work/resume.tex` uses `\documentclass{common/resume}` and the workspace contains `work/common/resume.cls`.
+7. Confirm it produces `output/resume.tex` and `output/resume.pdf` when local build tooling is available.
+8. Confirm non-blocking uncertainty is marked as `needs-confirmation` or `omitted-unresolved`, not guessed into final bullets.
+9. Confirm it does not use unrelated content-making skills during the run.

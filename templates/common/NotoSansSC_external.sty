@@ -4,9 +4,10 @@
 \RequirePackage{fontspec}
 \RequirePackage{xeCJK}
 
-% Place NotoSansSC-Regular.otf and NotoSansSC-Bold.otf under templates/common/fonts/NotoSansSC/.
-% Do not vendor copyrighted Adobe fonts in this package.
-\defaultfontfeatures{Path = ../../common/fonts/NotoSansSC/, Mapping=tex-text}
+% Optional private local font helper. Copy this file and NotoSansSC-Regular.otf /
+% NotoSansSC-Bold.otf into a generated workspace under work/common/ only when
+% the font license has been reviewed. Do not commit font files to this package.
+\defaultfontfeatures{Path = common/fonts/NotoSansSC/, Mapping=tex-text}
 
 \setCJKmainfont[
   BoldFont=NotoSansSC-Bold.otf,

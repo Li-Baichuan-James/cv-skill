@@ -1,6 +1,6 @@
 % !TEX program = xelatex
-% Compile from this directory: xelatex resume.tex
-\documentclass{../../common/resume}
+% Compile from a workspace containing common/resume.cls: xelatex resume.tex
+\documentclass{common/resume}
 \RequirePackage{xeCJK}
 \IfFontExistsTF{Microsoft YaHei}{
   \setCJKmainfont{Microsoft YaHei}
@@ -11,9 +11,9 @@
   \setCJKsansfont{Noto Sans SC}
   \setCJKmonofont{Noto Sans SC}
 }{}}
-% For fully bundled builds, place NotoSansSC-Regular.otf and NotoSansSC-Bold.otf under
-% templates/common/fonts/NotoSansSC/ and replace the fallback above with:
-% \input{../../common/NotoSansSC_external.sty}
+% For private local builds, optional Noto font files may live under work/common/fonts/NotoSansSC/.
+% Do not commit font files unless their license has been reviewed and documented.
+% If using the external font helper from the generated workspace, copy it under work/common/ and input it there.
 \begin{document}
 
 \resumeName{\placeholder{姓名}}

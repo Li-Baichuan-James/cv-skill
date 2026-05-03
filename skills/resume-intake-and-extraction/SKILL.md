@@ -24,7 +24,7 @@ Normalize messy resume input into traceable working material. Extract first, map
 - Prefer platform-native image reading or OCR for image inputs.
 - Save extracted content to `work/extracted.md`.
 - Save gaps, conflicts, and follow-up questions to `work/requirements-summary.md`.
-- Save claim traceability to `work/claim-source-map.md`.
+- Save initial claim traceability to `work/claim-source-map.md`; authoring must later update this map to cover the final rendered resume claims.
 - For every uncertain field, keep the raw source wording when available instead of normalizing it into a cleaner fact.
 
 ## Confidence Labels
@@ -38,7 +38,14 @@ Mark each usable or requested fact as:
 
 Legacy confidence labels may appear inside notes, but the state above controls whether drafting can proceed.
 
-Use `[confirm]` only for `needs-confirmation` items in working notes. Do not use `[confirm]` to bypass `missing-blocking`.
+Use `[confirm]` only for `needs-confirmation` items in working notes. Do not use `[confirm]` to bypass `missing-blocking`, and do not allow `[confirm]` or `needs-confirmation` claims in final resume prose.
+
+Final output eligibility:
+
+- `resolved`: may appear in final resume prose.
+- `needs-confirmation`: may appear only in working notes, never in final prose.
+- `omitted-unresolved`: records an intentional omission and must not appear in final prose.
+- `missing-blocking`: blocks authoring and finalization until resolved or explicitly omitted.
 
 ## Claim Map Format
 
@@ -48,6 +55,8 @@ Use this compact table in `work/claim-source-map.md`:
 |---|---|---|---|
 | Candidate held role X at Y | input/source.pdf p.1 or chat quote | resolved | use |
 | Exact metric unclear | OCR line or user note | needs-confirmation | omit or ask |
+
+This intake map covers source facts and uncertainties. After the final resume prose is drafted, `resume-authoring-and-assembly` must update the table so every final factual claim has a `resolved` row.
 
 ## Legacy Confidence Labels
 

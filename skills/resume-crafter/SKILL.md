@@ -1,6 +1,6 @@
 ---
 name: resume-crafter
-description: Use when a user wants a 1-2 page resume created, rewritten, or converted into a polished LaTeX and PDF package from chat requirements, documents, PDFs, images, or mixed source material.
+description: Use when a user wants a resume or CV-related document created, rewritten, or converted from chat requirements, documents, PDFs, images, or mixed source material, including long CV requests that must be narrowed to an in-scope 1-2 page resume.
 ---
 
 # Resume Crafter
@@ -15,8 +15,9 @@ Coordinate a four-skill workflow for mainstream 1-2 page resumes. Clarify blocki
 - User wants an existing resume rewritten into a polished LaTeX resume.
 - User provides `.docx`, `.pdf`, images, screenshots, or mixed source files for resume conversion.
 - User wants both editable `.tex` and final `.pdf` outputs.
+- User asks for a long academic CV and needs scope narrowing to a concise research resume.
 
-Do not use for cover letters, slide decks, portfolios, unrelated document work, or long academic CVs. If the user asks for a long CV, explain that this package targets 1-2 page resumes and ask whether to create a concise research resume instead.
+Do not produce cover letters, slide decks, portfolios, unrelated document work, or long academic CVs. If the user asks for a long CV, explain that this package targets 1-2 page resumes and ask whether to create a concise research resume instead.
 
 ## Workflow
 
@@ -42,11 +43,18 @@ Do not use for cover letters, slide decks, portfolios, unrelated document work, 
 - `omitted-unresolved`: unresolved and intentionally left out of final prose
 - `missing-blocking`: blocks drafting or finalization
 
+Final output eligibility:
+
+- `resolved`: may appear in final resume prose.
+- `needs-confirmation`: may appear only in working notes, never in final prose.
+- `omitted-unresolved`: records an intentional omission and must not appear in final prose.
+- `missing-blocking`: blocks authoring and finalization until resolved or explicitly omitted.
+
 ## Guardrails
 
 - Intake decides what is known, unknown, or unsafe.
-- Authoring may draft only from `resolved` facts or conservative wording supported by the claim map.
-- Review-and-delivery may finalize only when `missing-blocking` and final-prose `[confirm]` markers are cleared and the build is clean.
+- Authoring may draft only from `resolved` facts or conservative wording supported by `resolved` claim-map entries.
+- Review-and-delivery may finalize only when every final factual claim maps to a `resolved` entry, `missing-blocking` and final-prose `[confirm]` markers are cleared, and the build is clean.
 - For ATS-sensitive industry use, default away from photos, multi-column layouts, and icon-heavy contact blocks unless the user explicitly accepts the tradeoff after it is explained.
 - Keep all generated content inside the current run's workspace. Do not write resume output into `skills/`, `templates/`, `docs/`, `examples/`, or repo root paths.
 
