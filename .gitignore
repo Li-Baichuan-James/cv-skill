@@ -15,3 +15,6 @@ templates/**/*.pdf
 Thumbs.db
 .vscode/
 .idea/
+
+# Local development worktrees
+.worktrees/
