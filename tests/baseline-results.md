@@ -12,7 +12,7 @@ Scenarios:
 Failure classes:
 - `F1 Early Drafting / Hidden Unknowns`
   - Scenarios: academic, scanned PDF
-  - Observable cues: finished-looking bullets appear before clarification; no `[confirm]` markers; notes blur facts and guesses.
+  - Observable cues: finished-looking bullets appear before clarification; no uncertainty states; notes blur facts and guesses.
 - `F2 Unsupported Fact Synthesis`
   - Scenarios: academic, scanned PDF
   - Observable cues: invented dates, venues, titles, or normalized OCR details not present in the source.
@@ -25,6 +25,12 @@ Failure classes:
 - `F5 Runtime-Skill Drift`
   - Scenarios: all three
   - Observable cues: transcript proposes activating unrelated skills during resume generation; generated notes omit the runtime constraint; workflow routes core resume decisions through non-approved skills.
+- `F6 Missing Claim Map`
+  - Scenarios: all scenarios
+  - Observable cues: final resume claims have no `work/claim-source-map.md`; review claims factual support without source mapping.
+- `F7 Long-CV Scope Creep`
+  - Scenarios: long CV
+  - Observable cues: agent produces a long academic CV instead of narrowing to a 1-2 page research resume or asking for confirmation.
 
 Diagnostic use:
 - A baseline run is meaningfully RED when at least one cue above is visible in the agent transcript, generated notes, or repo paths.

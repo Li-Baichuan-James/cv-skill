@@ -33,6 +33,30 @@ For resume generation, keep the content runtime limited to the four bundled resu
 4. If your platform copies skill folders out of the repository, also keep the repository checkout available as the asset root for `templates/`, `docs/`, `examples/`, and `tests/`.
 5. Keep `docs/` and `tests/` available for operator reference and verification.
 
+## Copy/Paste Agent Setup
+
+Paste this into an agent that can read local files:
+
+```text
+Install Resume Crafter from this repository checkout.
+
+Source repo: <absolute path to cv-skill>
+Target skill directory: <your agent skill directory>
+
+Do these steps:
+1. Copy these four folders from Source repo/skills into Target skill directory:
+   - resume-crafter
+   - resume-intake-and-extraction
+   - resume-authoring-and-assembly
+   - resume-review-and-delivery
+2. Keep the full Source repo available as the asset root for templates, docs, examples, and tests.
+3. Check `xelatex --version` and report whether PDF builds are available.
+4. Verify the installed skills have valid `SKILL.md` frontmatter.
+5. Run a dry verification using `examples/inputs/sample-industry-resume.md`: the workflow should create input/work/output folders, require a claim-source map, avoid photos for ATS, and target output/resume.tex plus output/resume.pdf.
+
+Do not modify source resume facts or invent missing details during verification.
+```
+
 ## Asset Layout Rule
 
 The four installed skill folders are only the runtime entrypoints. The repository checkout remains the canonical asset root for:
@@ -56,6 +80,8 @@ Run these checks:
 If `pandoc` is missing, conversion and preprocessing workflows may fail.
 If `xelatex` is missing, final PDF generation will fail.
 
+Chinese templates require XeLaTeX plus CJK fonts. The repository includes Noto Sans SC configuration guidance, but it does not vendor Adobe fonts or other copyrighted font files.
+
 Also install whatever the upstream `docx` and `pdf` skills require in your environment.
 
 For screenshot or image-only resumes, make sure your host platform can already read images or perform OCR. Resume Crafter does not add a separate image-processing skill dependency in version one.
@@ -64,8 +90,9 @@ For screenshot or image-only resumes, make sure your host platform can already r
 
 1. Ask the agent to use `resume-crafter` on a short plain-text resume input.
 2. Confirm it creates a fresh workspace with `input/`, `work/`, and `output/`.
-3. Confirm it stops for missing identity, role, date-range, chronology, publication, or metric facts that would make the resume misleading.
-4. Confirm it chooses academic or industry mode intentionally.
-5. Confirm it produces `output/resume.tex` and `output/resume.pdf`.
-6. Confirm low-confidence but non-blocking details stay labeled in working notes instead of being guessed into final resume bullets.
-7. Confirm it does not use unrelated content-making skills during the run.
+3. Confirm it creates `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md`.
+4. Confirm it stops for `missing-blocking` identity, role, date-range, chronology, publication, or metric facts that would make the resume misleading.
+5. Confirm it chooses industry, research, Chinese standard, or photo/visual mode intentionally.
+6. Confirm it produces `output/resume.tex` and `output/resume.pdf` when local build tooling is available.
+7. Confirm non-blocking uncertainty is marked as `needs-confirmation` or `omitted-unresolved`, not guessed into final bullets.
+8. Confirm it does not use unrelated content-making skills during the run.

@@ -1,0 +1,21 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{NotoSansSC_external}[2026/05/03 Noto Sans SC CJK support]
+
+\RequirePackage{fontspec}
+\RequirePackage{xeCJK}
+
+% Place NotoSansSC-Regular.otf and NotoSansSC-Bold.otf under templates/common/fonts/NotoSansSC/.
+% Do not vendor copyrighted Adobe fonts in this package.
+\defaultfontfeatures{Path = ../../common/fonts/NotoSansSC/, Mapping=tex-text}
+
+\setCJKmainfont[
+  BoldFont=NotoSansSC-Bold.otf,
+  ItalicFont=NotoSansSC-Regular.otf
+]{NotoSansSC-Regular.otf}
+\setCJKsansfont{NotoSansSC-Bold.otf}
+\setCJKmonofont{NotoSansSC-Regular.otf}
+
+\setCJKfamilyfont{zhregular}{NotoSansSC-Regular.otf}
+\setCJKfamilyfont{zhbold}{NotoSansSC-Bold.otf}
+\newcommand*{\songti}{\CJKfamily{zhregular}}
+\newcommand*{\heiti}{\CJKfamily{zhbold}}

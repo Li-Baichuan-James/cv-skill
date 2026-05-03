@@ -1,0 +1,32 @@
+% !TEX program = xelatex
+% Compile from this directory: xelatex resume.tex
+\documentclass{../../common/resume}
+\begin{document}
+
+\resumeName{\placeholder{name}}
+\resumeContact{\placeholder{email} \quad | \quad \placeholder{location} \quad | \quad \placeholder{website} \quad | \quad \placeholder{scholar/profile}}
+
+\resumeSection{Education}
+\datedEntry{\placeholder{degree}, \placeholder{institution}}{\placeholder{graduation}}
+\placeholder{advisor, thesis, GPA, or honors only when confirmed.}
+
+\resumeSection{Research Experience}
+\datedEntry{\placeholder{role or project}, \placeholder{lab/institution}}{\placeholder{dates}}
+\begin{itemize}
+  \item \placeholder{Research contribution bullet with confirmed method, artifact, or finding.}
+  \item \placeholder{Technical contribution bullet with confirmed tools or dataset.}
+\end{itemize}
+
+\resumeSection{Selected Publications}
+\placeholder{Use selected confirmed publications only. Omit unresolved venues or statuses.}
+
+\resumeSection{Selected Projects}
+\datedEntry{\placeholder{project name}}{\placeholder{dates or blank}}
+\begin{itemize}
+  \item \placeholder{Confirmed research or technical project bullet.}
+\end{itemize}
+
+\resumeSection{Skills}
+\placeholder{Methods: ...} \quad \placeholder{Programming: ...} \quad \placeholder{Tools: ...}
+
+\end{document}

@@ -1,0 +1,42 @@
+% !TEX program = xelatex
+% Compile from this directory: xelatex resume.tex
+\documentclass{../../common/resume}
+\RequirePackage{xeCJK}
+\IfFontExistsTF{Microsoft YaHei}{
+  \setCJKmainfont{Microsoft YaHei}
+  \setCJKsansfont{Microsoft YaHei}
+  \setCJKmonofont{Microsoft YaHei}
+}{\IfFontExistsTF{Noto Sans SC}{
+  \setCJKmainfont{Noto Sans SC}
+  \setCJKsansfont{Noto Sans SC}
+  \setCJKmonofont{Noto Sans SC}
+}{}}
+% For fully bundled builds, place NotoSansSC-Regular.otf and NotoSansSC-Bold.otf under
+% templates/common/fonts/NotoSansSC/ and replace the fallback above with:
+% \input{../../common/NotoSansSC_external.sty}
+\begin{document}
+
+\resumeName{\placeholder{姓名}}
+\resumeContact{\placeholder{邮箱} \quad | \quad \placeholder{电话} \quad | \quad \placeholder{城市} \quad | \quad \placeholder{个人主页/LinkedIn}}
+
+\resumeSection{个人简介}
+\placeholder{2-3 行简介，只使用已确认事实。}
+
+\resumeSection{教育背景}
+\datedEntry{\placeholder{学校}，\placeholder{学位/专业}}{\placeholder{时间}}
+\placeholder{奖项、绩点、导师或论文题目仅在已确认时填写。}
+
+\resumeSection{实习/项目经历}
+\datedEntry{\placeholder{职位/项目}，\placeholder{公司/机构}}{\placeholder{时间}}
+\begin{itemize}
+  \item \placeholder{使用已确认的行动、技术、范围和结果写成的要点。}
+  \item \placeholder{不补写未经确认的指标、头衔、日期或职责。}
+\end{itemize}
+
+\resumeSection{技能}
+\placeholder{编程语言：...} \quad \placeholder{工具/框架：...} \quad \placeholder{语言：...}
+
+\resumeSection{其他}
+\placeholder{获奖、证书、开源、论文或作品集，只保留与目标相关且已确认的信息。}
+
+\end{document}

@@ -1,0 +1,31 @@
+% !TEX program = xelatex
+% Compile from this directory: xelatex resume.tex
+\documentclass{../../common/resume}
+\begin{document}
+
+\resumeName{\placeholder{name}}
+\resumeContact{\placeholder{email} \quad | \quad \placeholder{phone} \quad | \quad \placeholder{linkedin} \quad | \quad \placeholder{location}}
+
+\resumeSection{Summary}
+\placeholder{2-3 line role-targeted summary using only resolved facts.}
+
+\resumeSection{Experience}
+\datedEntry{\placeholder{title}, \placeholder{company}}{\placeholder{dates}}
+\begin{itemize}
+  \item \placeholder{Impact bullet with confirmed action, scope, technology, and result.}
+  \item \placeholder{Delivery bullet with confirmed ownership and outcome.}
+\end{itemize}
+
+\resumeSection{Projects}
+\datedEntry{\placeholder{project name}}{\placeholder{dates or blank}}
+\begin{itemize}
+  \item \placeholder{Project bullet with confirmed stack and user/business/research value.}
+\end{itemize}
+
+\resumeSection{Skills}
+\placeholder{Languages: ...} \quad \placeholder{Frameworks: ...} \quad \placeholder{Tools: ...}
+
+\resumeSection{Education}
+\datedEntry{\placeholder{degree}, \placeholder{institution}}{\placeholder{graduation}}
+
+\end{document}

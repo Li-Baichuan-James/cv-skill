@@ -1,0 +1,41 @@
+% !TEX program = xelatex
+% Non-ATS visual template. Compile from this directory: xelatex resume.tex
+\documentclass{../../common/resume}
+\begin{document}
+
+\begin{minipage}[t]{0.72\textwidth}
+  {\LARGE\bfseries \placeholder{name}}\\[0.35em]
+  \small \placeholder{email} \quad | \quad \placeholder{phone} \quad | \quad \placeholder{linkedin}\\
+  \small \placeholder{location}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.2\textwidth}
+  \raggedleft
+  \fbox{\parbox[c][0.82in][c]{0.82in}{\centering\small photo}}
+\end{minipage}
+
+\vspace{0.6em}
+\textbf{Note:} this photo template is for user-approved non-ATS use only.
+
+\resumeSection{Profile}
+\placeholder{Concise profile using only resolved facts.}
+
+\resumeSection{Experience}
+\datedEntry{\placeholder{title}, \placeholder{company}}{\placeholder{dates}}
+\begin{itemize}
+  \item \placeholder{Confirmed impact bullet.}
+  \item \placeholder{Confirmed delivery bullet.}
+\end{itemize}
+
+\resumeSection{Projects}
+\datedEntry{\placeholder{project name}}{\placeholder{dates or blank}}
+\begin{itemize}
+  \item \placeholder{Confirmed project bullet.}
+\end{itemize}
+
+\resumeSection{Skills}
+\placeholder{Grouped skill list.}
+
+\resumeSection{Education}
+\datedEntry{\placeholder{degree}, \placeholder{institution}}{\placeholder{graduation}}
+
+\end{document}

@@ -1,6 +1,6 @@
 ---
 name: resume-review-and-delivery
-description: Use when a LaTeX resume draft exists and needs factual review, ATS or academic risk checks, build validation, packaging, and final delivery.
+description: Use when a LaTeX resume draft exists and needs factual review, ATS or research-resume risk checks, build validation, packaging, and final delivery.
 ---
 
 # Resume Review And Delivery
@@ -9,19 +9,31 @@ description: Use when a LaTeX resume draft exists and needs factual review, ATS 
 
 Review the draft for factual safety and presentation risk, compile the PDF, and package the final outputs without overstating confidence.
 
+## Preconditions
+
+Before review, require these files in the current workspace:
+
+- `work/extracted.md`
+- `work/requirements-summary.md`
+- `work/claim-source-map.md`
+- `work/resume.tex`
+
+If any are missing, return a blocker instead of finalizing.
+
 ## Review Checklist
 
 - every factual claim is supported by source material or clearly marked for confirmation
 - no `[confirm]` markers remain in a version presented as final
 - no `\placeholder{...}` tokens or stock template bullets remain in a version presented as final
+- no `missing-blocking` claims remain in `work/claim-source-map.md`
 - wording is professional and internally consistent
-- ATS, photo, and layout risks are called out when relevant
+- ATS, photo, language, and layout risks are called out when relevant
 - page count fits the target context
 - links and contact information appear intentional
 
 ## Build Requirements
 
-- Compile the LaTeX source into `output/resume.pdf`
+- Compile `work/resume.tex` with XeLaTeX into `output/resume.pdf`
 - Copy final source into `output/resume.tex`
 - Preserve review notes and build logs under `work/`
 - Keep all outputs inside the current workspace folder
