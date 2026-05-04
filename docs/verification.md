@@ -8,7 +8,7 @@ Use this procedure before publishing or after changing skills, templates, tests,
 tools/verify.ps1
 ```
 
-The script writes temporary compile workspaces under the OS temp directory. It must not create generated files in repository source paths.
+The script writes temporary compile workspaces under the OS temp directory when `xelatex` is available. It must not create generated files in repository source paths. If `xelatex` is unavailable, template compile checks are skipped locally and must be performed in an environment with `xelatex` before publishing a verified release.
 
 ## Manual Checks
 
@@ -24,7 +24,7 @@ The script writes temporary compile workspaces under the OS temp directory. It m
    - `templates/industry/photo/resume.tex`
    - `templates/research/ats/resume.tex`
    - `templates/zh/standard/resume.tex`
-4. Copy each template variant to a temp folder with `common/resume.cls` and run:
+4. When `xelatex` is available, copy each template variant to a temp folder with `common/resume.cls` and run:
 
 ```powershell
 xelatex -interaction=nonstopmode -halt-on-error resume.tex

@@ -22,6 +22,23 @@ function Write-Check {
     }
 }
 
+function Write-Skip {
+    param([string]$Message)
+    Write-Host "SKIP $Message" -ForegroundColor Yellow
+}
+
+function Test-SkillFrontmatter {
+    param([string]$Content)
+
+    $FrontmatterMatch = [regex]::Match($Content, "(?s)\A---[ \t]*(?:\r?\n)(?<Frontmatter>.*?)(?:\r?\n)---[ \t]*(?:\r?\n|\z)")
+    if (-not $FrontmatterMatch.Success) {
+        return $false
+    }
+
+    $Frontmatter = $FrontmatterMatch.Groups["Frontmatter"].Value
+    return ($Frontmatter -match "(?m)^name:") -and ($Frontmatter -match "(?m)^description:")
+}
+
 function Test-FileExists {
     param([string]$RelativePath)
     $FullPath = Resolve-RepoPath $RelativePath
@@ -51,7 +68,7 @@ foreach ($SkillFile in $SkillFiles) {
 
     if ($Exists) {
         $Content = Get-Content -LiteralPath $FullPath -Raw
-        $HasFrontmatter = ($Content -match "(?m)^---\s*$") -and ($Content -match "(?m)^name\s*:") -and ($Content -match "(?m)^description\s*:")
+        $HasFrontmatter = Test-SkillFrontmatter $Content
         Write-Check $HasFrontmatter "$SkillFile has frontmatter name and description"
     }
 }
@@ -138,7 +155,7 @@ if ($BinaryMatches.Count -eq 0) {
 
 $XeLaTeX = Get-Command xelatex -ErrorAction SilentlyContinue
 if ($null -eq $XeLaTeX) {
-    Write-Host "PASS xelatex not found; template compile checks skipped"
+    Write-Skip "xelatex not found; template compile checks skipped"
 } else {
     $CommonClass = Resolve-RepoPath "templates/common/resume.cls"
     foreach ($TemplateFile in $TemplateFiles | Where-Object { $_ -ne "templates/common/resume.cls" }) {
