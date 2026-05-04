@@ -139,9 +139,15 @@ if (Test-Path -LiteralPath $OutputDir -PathType Container) {
 }
 
 $BinaryPatterns = @("*.otf", "*.ttf", "*.woff", "*.woff2", "*.jpg", "*.jpeg", "*.png", "*.pdf", "*.docx")
+$AllowedBinaryAssets = @(
+    "assets/cv-skill-readme.jpg"
+)
 $BinaryMatches = @()
 foreach ($Pattern in $BinaryPatterns) {
-    $BinaryMatches += Get-ChildItem -LiteralPath $RepoRoot -Filter $Pattern -File -Recurse -Force | Where-Object { $_.FullName -notmatch "[\\/]\.git[\\/]" }
+    $BinaryMatches += Get-ChildItem -LiteralPath $RepoRoot -Filter $Pattern -File -Recurse -Force | Where-Object {
+        $RelativePath = $_.FullName.Substring($RepoRoot.Length).TrimStart("\", "/") -replace "\\", "/"
+        ($_.FullName -notmatch "[\\/]\.git[\\/]") -and ($AllowedBinaryAssets -notcontains $RelativePath)
+    }
 }
 
 if ($BinaryMatches.Count -eq 0) {

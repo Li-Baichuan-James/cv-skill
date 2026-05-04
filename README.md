@@ -8,6 +8,8 @@
 
 > 简历？ 易如反掌。
 
+<img src="assets/cv-skill-readme.jpg" alt="简历？ 易如反掌。" width="220" />
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
 [![AgentSkills](https://img.shields.io/badge/AgentSkills-Standard-green)](https://agentskills.io)
