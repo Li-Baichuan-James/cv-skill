@@ -2,39 +2,32 @@
 
 ## Pre-Publish Checklist
 
-- verify all four bundled skill folders are present
-- verify the four supported template variants are complete: industry ATS, industry photo, research ATS, and Chinese standard
-- verify `INSTALL.md` still matches the shipped repository layout
-- verify `docs/` reflects the current runtime flow and guardrails
-- verify `tests/` still cover the intended scenarios
-- verify `LICENSE` contains the intended MIT License text before publishing
-- verify no copyrighted fonts, photos, source resumes, or private user data are included
-- verify no accidental font, image, PDF, or source-resume assets are included unless license and privacy review is documented
+- Four skills are present: `resume-crafter`, `resume-intake-and-extraction`, `resume-authoring-and-assembly`, and `resume-review-and-delivery`.
+- Templates are present for `templates/industry/ats`, `templates/industry/photo`, `templates/research/ats`, and `templates/zh/standard`.
+- `INSTALL.md` documents the `CV_SKILL_ROOT` asset-root contract.
+- Documentation explains the intake, authoring, review, and delivery flow.
+- Tests include exact prompts and pass-fail criteria.
+- A golden example is reproducible from repository examples.
+- License text is present.
+- No private resume material or binary assets are included.
 
 ## Release Gates
 
-- `LICENSE` contains the complete approved license text
-- install guidance still matches the supported agent environments
-- runtime boundary and uncertainty-threshold docs still match shipped skill behavior
-- templates compile with XeLaTeX when local fonts and tooling are present
-- templates compile from isolated workspaces containing `resume.tex` and `common/resume.cls`
+- Claim maps use the six-column schema: `Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling`.
+- Template compilation is isolated and does not depend on files outside the workspace output directory.
+- Output examples are reproducible from `output/resume.tex` and `output/common/resume.cls`.
 
 ## Lightweight Release Procedure
 
-1. Review `git diff` for accidental private data or generated resume artifacts.
-2. Run `xelatex --version` and note whether local PDF build verification is available.
-3. Check each `skills/*/SKILL.md` frontmatter has `name` and `description`.
-4. Confirm README, INSTALL, architecture, and tests all describe 1-2 page scope.
-5. Scan the repository for accidental binary assets: `*.otf`, `*.ttf`, `*.woff`, `*.jpg`, `*.jpeg`, `*.png`, and `*.pdf`.
-6. Tag releases as `vMAJOR.MINOR.PATCH` and summarize skill, template, dependency, and safety-rule changes.
+1. Review `git diff` for scoped documentation, skill, template, and test changes.
+2. Run `tools/verify.ps1`.
+3. If PowerShell is unavailable, use `docs/verification.md` as the fallback checklist.
+4. Check `xelatex --version` for PDF build capability.
+5. Check skill frontmatter for all four bundled skills.
+6. Confirm the 1-2 page resume scope and no long academic CV promise.
+7. Scan for binary files and private resume material.
+8. Tag the release after gates pass.
 
 ## Release Note Scope
 
-Call out changes to:
-
-- skill triggers or runtime boundaries
-- factual safety rules or stop conditions
-- template behavior or output contract
-- required dependencies such as `pandoc`, `xelatex`, `docx`, or `pdf`
-- licensing or distribution terms
-- installation, verification, or publishing instructions
+Release notes should describe contract, template, verification, and workflow changes. Do not include private source material, generated personal resumes, or unsupported claims about environments that were not verified.

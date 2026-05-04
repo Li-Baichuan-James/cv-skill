@@ -2,38 +2,77 @@
 
 ## Four-Skill Layout
 
-- `resume-crafter`: entrypoint, workspace creation, and runtime boundaries
-- `resume-intake-and-extraction`: source extraction, confidence labeling, and stop conditions
-- `resume-authoring-and-assembly`: template choice, rewriting, and LaTeX draft assembly for 1-2 page resumes
-- `resume-review-and-delivery`: factual review, risk checks, compilation, and packaging
+Resume Crafter is organized as four installed runtime skills:
+
+- `resume-crafter` handles orchestration, user-facing intake, scope control, and `CV_SKILL_ROOT` asset-root resolution.
+- `resume-intake-and-extraction` converts chat, docx, PDF, screenshots, and mixed artifacts into normalized factual material.
+- `resume-authoring-and-assembly` writes the 1-2 page LaTeX resume using repository templates.
+- `resume-review-and-delivery` verifies factual safety, compiles when possible, and prepares final outputs.
 
 ## Runtime Flow
 
-1. `resume-crafter` creates a fresh workspace and selects the resume path.
-2. `resume-intake-and-extraction` normalizes chat, `.docx`, `.pdf`, or image input into traceable working notes and `work/claim-source-map.md`.
-3. If `missing-blocking` facts are missing or unsafe, the flow stops for targeted clarification; otherwise uncertainty is classified as `needs-confirmation` or `omitted-unresolved`.
-4. `resume-authoring-and-assembly` chooses industry ATS, industry photo, research ATS, or Chinese standard template, copies `templates/common/resume.cls` to `work/common/resume.cls`, writes `work/resume.tex` with `\documentclass{common/resume}`, and updates the claim map for final rendered claims.
-5. `resume-review-and-delivery` checks factual safety, ATS or academic presentation risk, visible template-note cleanup, and workspace-local build readiness.
-6. Final artifacts are delivered as `output/resume.tex` and `output/resume.pdf`.
+1. `resume-crafter` confirms the resume scope and resolves `CV_SKILL_ROOT`.
+2. Intake extracts source facts and records uncertainty.
+3. Follow-up answers are written back into the workspace before drafting resumes.
+4. Authoring creates `output/resume.tex` and `output/common/resume.cls` from templates under `CV_SKILL_ROOT`.
+5. Review resolves every final claim, validates the claim map, and builds `output/resume.pdf` when `xelatex` is available.
+
+## Asset Root
+
+`CV_SKILL_ROOT` is the absolute path to the full repository checkout. Runtime skill folders can be copied into the agent skill directory, but assets stay in the checkout. Templates, examples, docs, tests, and verification helpers are loaded from `CV_SKILL_ROOT`. If the value is unknown, the runtime must ask the user rather than guessing.
+
+## Workspace Contract
+
+Each run uses a fresh workspace named:
+
+```text
+resume-workspace-YYYYMMDD-HHMMSS
+```
+
+The workspace contains `work/` for normalized source facts, claim maps, drafts, and review notes, and `output/` for final deliverables.
+
+## Output-Local Template Contract
+
+Both `work` and `output` use the same local document class path:
+
+```latex
+\documentclass{common/resume}
+```
+
+Both class files must exist:
+
+```text
+work/common/resume.cls
+output/common/resume.cls
+```
+
+Compile from the directory containing `resume.tex`:
+
+```sh
+xelatex -interaction=nonstopmode -halt-on-error resume.tex
+```
+
+This makes `output/resume.tex` and `output/common/resume.cls` reproducible outside the original workspace when XeLaTeX and required fonts are installed.
 
 ## Uncertainty Thresholds
 
-- blocking facts: stop when identity, employer or institution, role title, date range, chronology, publication venue or status, degree status, or claimed impact metrics are missing, conflicting, or too damaged to trust
-- unsafe facts: stop when OCR, conflicting sources, or ambiguous wording would turn a guess into a concrete claim
-- traceable uncertainty: proceed only when the detail is non-blocking, the source wording can be preserved in working notes, and the final resume can omit or conservatively reword the detail without inventing facts
+The system must stop for clarification when facts are missing, contradictory, unverifiable, or too vague to write safely. It may omit weak claims, but it must not invent dates, degrees, employers, metrics, publications, awards, tools, or outcomes.
+
+## Claim Map Backbone
+
+| Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling |
+| --- | --- | --- | --- | --- | --- |
+
+Every final resume claim must be mapped to source evidence or explicit user confirmation. The final handling column records whether the claim was used, revised, omitted, or blocked.
 
 ## Scope
 
-Resume Crafter targets mainstream 1-2 page resumes: industry, research-oriented, Chinese standard, and explicitly approved photo/visual variants. Long academic CVs are out of scope and should be narrowed to concise research resumes.
+The package creates 1-2 page resumes. It does not create long academic CVs. Academic or research material is condensed into a concise research resume.
 
 ## Runtime Boundary
 
-Resume-content decisions belong to the four bundled skills and, when needed, upstream `docx` or `pdf`. Platform-injected process skills may exist, but they are outside the resume decision path.
+Resume content flows through the four bundled skills. Upstream `docx` and `pdf` skills are adapters only when those input formats require extraction. Unrelated skills must not be introduced into the content path.
 
 ## Design Intent
 
-The package favors disciplined handoffs over free-form generation: extract first, map claims to sources, draft only from supported facts, and finalize only after review and a clean local XeLaTeX build.
-
-## Workspace-Local Template Contract
-
-Generated resumes must be reproducible from the run workspace. Template variants provide skeletons, but final drafts should keep `work/common/resume.cls` beside `work/resume.tex` and use `\documentclass{common/resume}` instead of relative paths back into this repository.
+The system favors factual safety, reproducible local outputs, clear user-facing blockers, and small portable LaTeX deliverables over broad document generation features.

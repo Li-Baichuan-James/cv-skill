@@ -1,99 +1,97 @@
 # Install Resume Crafter
 
-Agent-facing setup for local skill environments.
-
 ## Supported Environments
 
 - Claude Code
 - OpenCode
 - Codex-style local skill runners
 
-## Skill Install Conventions
+## Required Skills And Tools
 
-- Claude Code: install the four bundled folders under a Claude skills location such as project-local `.claude/skills/` or your user-level Claude skills directory if your setup uses one.
-- OpenCode: install the four bundled folders under your OpenCode skills directory, commonly `~/.config/opencode/skills/`.
-- Codex-style environments: install the four bundled folders into the tool's local skills, prompts, or agent-plugin directory, keeping each skill as its own folder.
-
-## Required Skills
-
-- bundled: `resume-crafter`, `resume-intake-and-extraction`, `resume-authoring-and-assembly`, `resume-review-and-delivery`
-- upstream: `docx` for `.docx` sources
-- upstream: `pdf` for `.pdf` sources
-- host capability: platform-native image reading or OCR for screenshots and image resumes
+| Dependency | Required | Purpose |
+| --- | --- | --- |
+| `resume-crafter` | Yes | Primary user-facing entrypoint. |
+| `resume-intake-and-extraction` | Yes | Normalizes chat, docx, PDF, screenshot, and mixed source material. |
+| `resume-authoring-and-assembly` | Yes | Builds the 1-2 page LaTeX resume source. |
+| `resume-review-and-delivery` | Yes | Reviews factual safety and packages final outputs. |
+| Upstream `docx` skill | When needed | Reads or extracts Word resume sources. |
+| Upstream `pdf` skill | When needed | Reads, extracts, or inspects PDF resume sources. |
+| Host image/OCR capability | When needed | Extracts screenshot or scanned-image material. |
+| `xelatex` | For PDF builds | Compiles `resume.tex` to `resume.pdf`. |
+| `pandoc` | Optional | Supports document conversion workflows when present. |
 
 ## Runtime Warning
 
-For resume generation, keep the content runtime limited to the four bundled resume skills, plus upstream `docx` or `pdf` only when the input type requires them. Host-default or platform-required process skills are acceptable if the platform injects them automatically, but they should not be used to make resume content, fact, layout, or delivery decisions.
+At content runtime, use only the four bundled resume skills plus upstream `docx` and `pdf` skills when those source formats require them. Do not route resume content through unrelated skills.
+
+## Asset Root Contract
+
+`CV_SKILL_ROOT` must be the absolute path to the intact full repository checkout. Installed skill folders are entrypoints; templates, examples, tests, docs, and `tools/verify.ps1` remain under `CV_SKILL_ROOT`. If the variable is missing or ambiguous, the agent must ask the user for the checkout path.
 
 ## Install Steps
 
-1. Clone or copy this repository locally.
-2. Keep the full repository checkout intact so `skills/`, `templates/`, `docs/`, `examples/`, and `tests/` remain siblings.
-3. Install the four folders under `skills/` into your platform's skill directory.
-4. If your platform copies skill folders out of the repository, also keep the repository checkout available as the asset root for `templates/`, `docs/`, `examples/`, and `tests/`.
-5. Keep `docs/` and `tests/` available for operator reference and verification.
+1. Clone or copy this repository.
+2. Keep the checkout intact and available as the asset root.
+3. Install the four bundled skill folders into the target agent skill directory.
+4. Record the checkout path as `CV_SKILL_ROOT`.
+5. Run verification with `tools/verify.ps1` when PowerShell is available, or follow `docs/verification.md` manually.
+
+## PowerShell Example
+
+```powershell
+$CV_SKILL_ROOT = "C:\Users\lbc\.config\opencode\cv-skill"
+$SkillDir = "$HOME\.config\opencode\skills"
+New-Item -ItemType Directory -Force -Path $SkillDir | Out-Null
+Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-crafter" $SkillDir
+Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-intake-and-extraction" $SkillDir
+Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-authoring-and-assembly" $SkillDir
+Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-review-and-delivery" $SkillDir
+& "$CV_SKILL_ROOT\tools\verify.ps1"
+```
+
+## POSIX Example
+
+```sh
+CV_SKILL_ROOT="$HOME/.config/opencode/cv-skill"
+SKILL_DIR="$HOME/.config/opencode/skills"
+mkdir -p "$SKILL_DIR"
+cp -R "$CV_SKILL_ROOT/skills/resume-crafter" "$SKILL_DIR/"
+cp -R "$CV_SKILL_ROOT/skills/resume-intake-and-extraction" "$SKILL_DIR/"
+cp -R "$CV_SKILL_ROOT/skills/resume-authoring-and-assembly" "$SKILL_DIR/"
+cp -R "$CV_SKILL_ROOT/skills/resume-review-and-delivery" "$SKILL_DIR/"
+pwsh "$CV_SKILL_ROOT/tools/verify.ps1"
+```
 
 ## Copy/Paste Agent Setup
 
-Paste this into an agent that can read local files:
-
 ```text
-Install Resume Crafter from this repository checkout.
-
-Source repo: <absolute path to cv-skill>
-Target skill directory: <your agent skill directory>
-
-Do these steps:
-1. Copy these four folders from Source repo/skills into Target skill directory:
-   - resume-crafter
-   - resume-intake-and-extraction
-   - resume-authoring-and-assembly
-   - resume-review-and-delivery
-2. Keep the full Source repo available as the asset root for templates, docs, examples, and tests.
-3. Check `xelatex --version` and report whether PDF builds are available.
-4. Verify the installed skills have valid `SKILL.md` frontmatter.
-5. Run a dry verification using `examples/inputs/sample-industry-resume.md`: the workflow should create input/work/output folders, copy `templates/common/resume.cls` to `work/common/resume.cls`, require a claim-source map, avoid photos for ATS, and target output/resume.tex plus output/resume.pdf.
-
-Do not modify source resume facts or invent missing details during verification.
+Set CV_SKILL_ROOT to the absolute checkout path.
+Set the target skill directory for this agent.
+Copy these four folders from CV_SKILL_ROOT/skills into the target skill directory:
+- resume-crafter
+- resume-intake-and-extraction
+- resume-authoring-and-assembly
+- resume-review-and-delivery
+Check xelatex with: xelatex --version
+Check each installed skill has valid frontmatter.
+Run a dry verification using examples/inputs/sample-industry-resume.md.
+The dry run must produce work/common/resume.cls and output/common/resume.cls.
 ```
-
-## Asset Layout Rule
-
-The four installed skill folders are only the runtime entrypoints. The repository checkout remains the canonical asset root for:
-
-- `templates/`
-- `docs/`
-- `examples/`
-- `tests/`
-
-Do not move a single skill folder by itself and expect bundled templates to travel with it unless your platform supports that packaging model explicitly.
 
 ## Local Dependencies
 
-Resume Crafter expects a local document toolchain for extraction and PDF assembly.
+Check optional converters and PDF build tools:
 
-Run these checks:
+```sh
+pandoc --version
+xelatex --version
+```
 
-- `pandoc --version`
-- `xelatex --version`
-
-If `pandoc` is missing, conversion and preprocessing workflows may fail.
-If `xelatex` is missing, final PDF generation will fail.
-
-Chinese templates require XeLaTeX plus CJK fonts. Prefer system-installed CJK fonts. The repository includes optional Noto Sans SC configuration guidance, but it does not vendor Adobe fonts, Noto font binaries, or other font files.
-
-Also install whatever the upstream `docx` and `pdf` skills require in your environment.
-
-For screenshot or image-only resumes, make sure your host platform can already read images or perform OCR. Resume Crafter does not add a separate image-processing skill dependency in version one.
+For Chinese-language resumes, ensure a CJK-capable font is installed and available to XeLaTeX. Word inputs require the upstream `docx` skill and its dependencies. PDF inputs require the upstream `pdf` skill and its dependencies. Screenshots or scanned documents require host image/OCR support; if OCR is unavailable, stop and ask for text or a machine-readable source.
 
 ## Simple Verification
 
-1. Ask the agent to use `resume-crafter` on a short plain-text resume input.
-2. Confirm it creates a fresh workspace with `input/`, `work/`, and `output/`.
-3. Confirm it creates `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md`.
-4. Confirm it stops for `missing-blocking` identity, role, date-range, chronology, publication, or metric facts that would make the resume misleading.
-5. Confirm it chooses industry, research, Chinese standard, or photo/visual mode intentionally.
-6. Confirm generated `work/resume.tex` uses `\documentclass{common/resume}` and the workspace contains `work/common/resume.cls`.
-7. Confirm it produces `output/resume.tex` and `output/resume.pdf` when local build tooling is available.
-8. Confirm non-blocking uncertainty is marked as `needs-confirmation` or `omitted-unresolved`, not guessed into final bullets.
-9. Confirm it does not use unrelated content-making skills during the run.
+1. Run `tools/verify.ps1`, or follow `docs/verification.md` if PowerShell is unavailable.
+2. Confirm the claim map uses the six-column schema: `Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling`.
+3. Confirm `output/common/resume.cls` exists beside `output/resume.tex`.
+4. Confirm runtime instructions do not require unrelated skills beyond the bundled resume skills and upstream `docx`/`pdf` adapters when needed.

@@ -1,22 +1,25 @@
 # Contributing
 
-Contributions should preserve the package's operational discipline, not just its output quality.
-
 ## Expectations
 
-- preserve factual safety, confidence labeling, and stop-before-guessing behavior
-- preserve the stop threshold for `missing-blocking` and unsafe facts; only non-blocking uncertainty may proceed as `needs-confirmation` or `omitted-unresolved`
-- preserve `work/claim-source-map.md` as the factual review backbone
-- ensure final resume prose is covered by `resolved` claim-map entries, not only by the intake-stage source map
-- keep runtime dependency discipline tight; do not add unrelated content-making skills to the core flow
-- treat upstream `docx` and `pdf` as source-type adapters, not general decision-makers
-- preserve template intent across industry ATS, industry photo, research ATS, and Chinese standard variants
-- keep generated resume artifacts inside run-specific workspaces, not repository source paths
-- do not add fonts, photos, PDFs, source resumes, or other binary assets unless the license and privacy review is documented; prefer system-installed CJK fonts over vendored font files
-- preserve the workspace-local template contract: generated drafts use `\documentclass{common/resume}` with `work/common/resume.cls`
+- Preserve factual safety over fluent rewriting.
+- Preserve the stop threshold for missing, contradictory, unverifiable, or vague claims.
+- Preserve the claim map backbone and six-column schema: `Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling`.
+- Ensure final prose resolves every included claim and does not contain unsupported facts.
+- Maintain an omission audit for excluded, weak, or blocked claims.
+- Preserve runtime discipline: resume content uses only the four bundled skills plus `docx` and `pdf` as input adapters when needed.
+- Treat `docx` and `pdf` as adapters, not authoring or review substitutes.
+- Preserve template intent for industry ATS, industry photo, research ATS, and Chinese standard resumes.
+- Keep workspace isolation with fresh `resume-workspace-YYYYMMDD-HHMMSS` directories.
+- Preserve output-local reproducibility with both `work/common/resume.cls` and `output/common/resume.cls`.
+- Do not commit binary assets or private resume material.
 
 ## Review Focus
 
-Check that changes still preserve workspace isolation, template selection intent, factual traceability, stop-versus-proceed uncertainty rules, 1-2 page scope, and the `output/resume.tex` plus `output/resume.pdf` delivery contract.
+Before release, reviewers should verify that the delivery contract still produces:
 
-Before release, scan for accidental binary assets such as `*.otf`, `*.ttf`, `*.woff`, `*.jpg`, `*.jpeg`, `*.png`, and `*.pdf`.
+- `output/resume.tex`
+- `output/common/resume.cls`
+- `output/resume.pdf` when `xelatex` is available
+
+Reviewers should run `tools/verify.ps1` or follow `docs/verification.md` before release. Pay particular attention to claim-map completeness, blocker behavior, `CV_SKILL_ROOT` asset-root handling, and output-local template compilation.
