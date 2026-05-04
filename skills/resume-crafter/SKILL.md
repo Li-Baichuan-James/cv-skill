@@ -51,7 +51,7 @@ Do not produce cover letters, slide decks, portfolios, unrelated document work, 
 
 Use this six-column header in `work/claim-source-map.md`:
 
-| Claim | Source | Evidence detail | State | Final handling | Notes |
+| Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling |
 |---|---|---|---|---|---|
 
 ## Uncertainty States

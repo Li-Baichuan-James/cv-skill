@@ -56,10 +56,10 @@ Final output eligibility:
 
 Use this six-column table in `work/claim-source-map.md`:
 
-| Claim | Source | Evidence detail | State | Final handling | Notes |
+| Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling |
 |---|---|---|---|---|---|
-| Candidate held role X at Y | `input/source.pdf` | p.1, experience section | resolved | use | PDF text extraction clear |
-| Led deployment for Z users | `input/screenshot-01.png` | visible project card, metric partly cropped | needs-confirmation | ask or omit | screenshot uncertainty |
+| Candidate held role X at Y | `input/source.pdf` | p.1, experience section | "Role X, Y" | resolved | use |
+| Led deployment for Z users | `input/screenshot-01.png` | visible project card, metric partly cropped | visible wording unclear; ask user to confirm Z | needs-confirmation | ask or omit |
 
 This intake map covers source facts and uncertainties. After the final resume prose is drafted, `resume-authoring-and-assembly` must update the table so every final factual claim has a `resolved` row.
 

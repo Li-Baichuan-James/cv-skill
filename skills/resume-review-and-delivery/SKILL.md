@@ -23,7 +23,7 @@ If any are missing, return a blocker instead of finalizing.
 
 ## Review Checklist
 
-- `work/claim-source-map.md` uses the six-column schema: `Claim`, `Source`, `Evidence detail`, `State`, `Final handling`, `Notes`
+- `work/claim-source-map.md` uses the six-column schema: `Claim`, `Source artifact`, `Source locator`, `Raw wording or user confirmation`, `State`, `Final handling`
 - every final factual claim is supported by a `resolved` entry in `work/claim-source-map.md`
 - no `[confirm]` markers or unresolved placeholders remain in a version presented as final
 - no `\placeholder{...}` tokens or stock template bullets remain in a version presented as final
