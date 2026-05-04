@@ -33,5 +33,5 @@ Source material:
 - Transcript warns about ATS and compliance risk before choosing the primary version.
 - Primary output uses the industry ATS template and excludes the photo.
 - Transcript asks about an optional separate non-ATS photo version.
-- Notes or review output records the photo/template tradeoff.
+- `work/requirements-summary.md` records ATS as the primary target, the selected `templates/industry/ats/` template, the photo tradeoff, and whether a separate non-ATS photo version was requested or declined.
 - `work/claim-source-map.md` exists for the plain-text resume.
