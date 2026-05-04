@@ -23,8 +23,8 @@ Do not produce cover letters, slide decks, portfolios, unrelated document work, 
 ## Asset Root
 
 - Use `CV_SKILL_ROOT` as the absolute path to this skill package.
+- Resolve `CV_SKILL_ROOT` in this order: first use an explicit user-provided `CV_SKILL_ROOT` if present; otherwise use the known repository/package checkout location if the runtime exposes the loaded skill path or the skills are still installed under the repo; if neither is available, ask the user for the absolute asset root before using bundled templates.
 - Read bundled templates, examples, tests, and docs from `CV_SKILL_ROOT`.
-- If `CV_SKILL_ROOT` is unknown, stop and ask the user for it.
 - Do not guess repository-relative paths such as `templates/...` from the current working directory.
 
 ## Workflow

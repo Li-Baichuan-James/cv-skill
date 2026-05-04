@@ -17,14 +17,14 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 - Decide section order and compression strategy
 - Write the working LaTeX draft to `work/resume.tex`
 - Copy `CV_SKILL_ROOT/templates/common/resume.cls` into `work/common/resume.cls` before compiling or handing off for review
-- Prepare `output/common/resume.cls` for output-local reproducibility
+- Preserve output-local packaging requirements for `resume-review-and-delivery`
 - Update `work/claim-source-map.md` after drafting so every final factual claim in `work/resume.tex` has a `resolved` entry
 
 ## Asset Root
 
 - Use `CV_SKILL_ROOT` as the absolute path to this skill package.
+- Resolve `CV_SKILL_ROOT` in this order: first use an explicit user-provided `CV_SKILL_ROOT` if present; otherwise use the known repository/package checkout location if the runtime exposes the loaded skill path or the skills are still installed under the repo; if neither is available, ask the user for the absolute asset root before using bundled templates.
 - Read bundled templates, examples, tests, and docs from `CV_SKILL_ROOT`.
-- If `CV_SKILL_ROOT` is unknown, stop and ask the user for it.
 - Do not guess repository-relative template paths from the current working directory.
 
 ## Authoring Rules
@@ -42,14 +42,16 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 
 - Use `\documentclass{common/resume}` in `work/resume.tex`.
 - Ensure the workspace contains `work/common/resume.cls`; do not rely on relative paths back into the repository's `templates/` directory.
-- Copy final source to `output/resume.tex` and copy `work/common/resume.cls` to `output/common/resume.cls` so output compiles from inside `output/`.
-- Build the working draft from `work/` with `xelatex -interaction=nonstopmode -halt-on-error resume.tex` when XeLaTeX is available.
+- Authoring produces `work/resume.tex` and `work/common/resume.cls`; it does not finalize `output/`.
+- Review-and-delivery copies final source and class into `output/` after review and build readiness.
+- Working draft build command from `work/`: `xelatex -interaction=nonstopmode -halt-on-error resume.tex`
+- Output-local build command after review packaging from `output/`: `xelatex -interaction=nonstopmode -halt-on-error resume.tex`
 
 ## Claim Map Closure
 
 - Treat the intake claim map as a starting point, not a final artifact.
 - After writing final bullets and sections, compare `work/resume.tex` against `work/claim-source-map.md`.
-- Add or revise rows so every final contact line, role, employer, date, degree, publication, skill grouping, project description, and bullet claim maps to source material with `resolved` state.
+- Add or revise rows so every final contact line, summary/profile sentence claim, role, employer, date, degree, publication, skill grouping, project description, and bullet claim maps to source material with `resolved` state.
 - Include a summary sentence stating that every final factual claim is covered by a `resolved` row.
 - Keep `needs-confirmation` and `omitted-unresolved` rows only for working context or documented omissions; they must not appear in final prose.
 

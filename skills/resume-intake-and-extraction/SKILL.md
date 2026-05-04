@@ -17,6 +17,11 @@ Normalize messy resume input into traceable working material. Extract first, map
 - Images or screenshots
 - Mixed bundles
 
+## Preconditions
+
+- Use within a `resume-crafter` workspace that already has `input/` and `work/` directories.
+- If no current workspace with `input/` and `work/` exists, invoke or resume `resume-crafter`, or return a blocker asking for a workspace before writing files.
+
 ## Required Behavior
 
 - Use upstream `docx` for `.docx` inputs.
