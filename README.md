@@ -6,7 +6,7 @@
 
 ---
 
-> 别让 AI 给你的简历加戏，也别让 Word 排版把你送走。
+> 简历？ 易如反掌。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
@@ -29,7 +29,7 @@
 
 ### 安装
 
-复制给 OpenCode / Claude Code / 其他支持 skills 的 LLM agent：
+复制这段话给 OpenCode / Claude Code / Codex 等 agent，一键配置：
 
 ```text
 Fetch and follow instructions from:
@@ -38,55 +38,38 @@ https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
 
 ### 快速开始
 
-1. 按 `INSTALL.md` 完成安装与验证，让 agent 安装四个 bundled skills。
+1. 让 agent 按 `INSTALL.md` 完成安装与验证。
 
 ```text
 https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
 ```
 
-2. 保留完整仓库作为模板和验证资源目录，并设置 `CV_SKILL_ROOT`，例如：
+2. 在会话里自然描述需求即可。例如：
 
 ```text
-CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill
+帮我把这份旧简历改成 1-2 页的英文学术简历，用于phd申请。
 ```
 
-3. 在会话里自然描述需求即可。例如：
+3. 也可以直接说明语言、用途、风格、重点 等等。
 
 ```text
-Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill.
-帮我把这份旧简历改成 1-2 页英文 ATS 简历，目标岗位是 backend software engineer。
+这份简历使用 中文/英文，用于求职/学术申请， 要/不要头像照片，重点突出科研项目和工程经历...
 ```
 
-4. 也可以直接说明语言、方向、材料范围和输出偏好：
+4. 正式动笔前，它会主动询问所有不确定的点，不会瞎猜/乱编。
 
-```text
-请用中文生成一页简历，重点突出科研项目和工程经历。如果信息不确定，先问我，不要自己编。
-```
+5. 经你确认后，直接交给你可以直接投递的 pdf 简历文件，以及对应的latex源代码（方便后续修改更新）。
 
-### 它适合做什么
-
-- 从旧简历改写一份 1-2 页 ATS 友好的英文简历
-- 从聊天记录、项目说明、论文经历、实习经历中整理第一版简历
-- 把长篇学术 CV 压缩成简洁 research resume
-- 从 `.docx`、`.pdf`、截图或混合材料中提取信息并重写
-- 生成可继续编辑、可本地编译的 LaTeX 简历
-- 在本地 `xelatex` 可用时生成最终 PDF
-
-### 不适合做什么
-
-- 不写长篇 academic CV；如果你给的是长 CV，它会建议压缩成 1-2 页 research resume
-- 不凭空捏造实习、论文、奖项、指标或学校信息
-- 不承诺“包过 ATS”或“保证拿 offer”
-- 不把聊天里的灵感当成事实，除非你确认它可以写进简历
 
 ### 用户侧流程（你会看到什么）
 
-1. Agent 先做 intake：读取聊天、Word、PDF、截图或其他材料
+1. Agent 先梳理信息：读取聊天、Word、PDF、截图或其他材料
 2. 信息不清楚时会停下来问，不会硬猜
 3. 起草前先整理需求、来源和约束
 4. 简历中的最终表述会进入 `work/claim-source-map.md`
 5. 交付时输出 `work/` 和 `output/`，方便复查和继续编译
 6. 如果本地有 `xelatex`，会尝试生成 `resume.pdf`；如果没有，会说明 PDF 被环境阻塞
+
 
 ### 核心特性
 
@@ -97,21 +80,6 @@ Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill.
 - **边界清楚**：只使用四个简历 skills，必要时配合 `docx` / `pdf` 读取源材料
 - **可验证**：仓库提供 `tools/verify.ps1` 检查技能、模板、测试场景和示例输出
 
-### 模板类型
-
-| 模板 | 适用场景 |
-| --- | --- |
-| `templates/industry/ats` | 面向企业投递的 ATS 友好英文简历 |
-| `templates/industry/photo` | 明确适合或用户明确要求照片布局的简历 |
-| `templates/research/ats` | 从学术材料压缩出的 1-2 页 research resume |
-| `templates/zh/standard` | 中文标准简历 |
-
-### 与 `docx` / `pdf` companion skills 的关系
-
-- `docx` 负责读取或提取 Word 简历材料
-- `pdf` 负责读取、提取、检查 PDF 简历材料
-- `resume-crafter` 负责简历 workflow：材料归一化、事实核查、写作、审阅、打包和交付
-- 简单说：`docx` / `pdf` 帮 agent 读清楚文件，`resume-crafter` 负责把简历做完整
 
 ### 仓库内容
 
@@ -121,6 +89,40 @@ Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill.
 - `tests/`：场景测试和 baseline
 - `docs/`：架构、贡献、发布和验证说明
 - `tools/verify.ps1`：本地验证脚本
+
+
+### 模板类型
+
+| 模板 | 适用场景 |
+| --- | --- |
+| `templates/zh/standard` | 中文标准简历 |
+| `templates/research/ats` | 面向学术申请的英文学术简历 |
+| `templates/industry/ats` | 面向企业投递的求职英文简历 |
+| `templates/industry/photo` | 用户明确要求需要包含头像照片的简历 |
+
+
+### 它适合做什么
+
+- 从聊天记录、项目说明、论文经历、实习经历中整理第一版简历
+- 从 `.docx`、`.pdf`、截图或混合材料中提取信息并重写
+- 生成可继续编辑、可本地编译的 LaTeX 简历
+- 在本地 `xelatex` 可用时生成最终 PDF
+
+### 不适合做什么
+
+- 不凭空捏造实习、论文、奖项、指标或学校信息
+- 不把聊天里的灵感当成事实，除非你确认它可以写进简历
+
+
+
+### 与 `docx` / `pdf` companion skills 的关系
+
+- `docx` 负责读取或提取 Word 简历材料
+- `pdf` 负责读取、提取、检查 PDF 简历材料
+- `resume-crafter` 负责简历 workflow：材料归一化、事实核查、写作、审阅、打包和交付
+- 简单说：`docx` / `pdf` 帮 agent 读清楚文件，`resume-crafter` 负责把简历做完整
+
+
 
 ### 许可说明
 
@@ -170,7 +172,6 @@ CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill
 3. Ask naturally for the resume deliverable you want. For example:
 
 ```text
-Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill.
 Build a 1-2 page ATS resume from the attached resume and my target backend software engineer notes.
 ```
 
