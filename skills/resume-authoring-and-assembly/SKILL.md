@@ -11,19 +11,28 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 
 ## Responsibilities
 
-- Select `templates/industry/ats/`, `templates/industry/photo/`, `templates/research/ats/`, or `templates/zh/standard/`
+- Select templates under `CV_SKILL_ROOT`, such as `templates/industry/ats/`, `templates/industry/photo/`, `templates/research/ats/`, or `templates/zh/standard/`
 - Rewrite bullets for clarity and professionalism
 - Preserve factual meaning and source limits
 - Decide section order and compression strategy
 - Write the working LaTeX draft to `work/resume.tex`
-- Copy `templates/common/resume.cls` into `work/common/resume.cls` before compiling or handing off for review
+- Copy `CV_SKILL_ROOT/templates/common/resume.cls` into `work/common/resume.cls` before compiling or handing off for review
+- Prepare `output/common/resume.cls` for output-local reproducibility
 - Update `work/claim-source-map.md` after drafting so every final factual claim in `work/resume.tex` has a `resolved` entry
+
+## Asset Root
+
+- Use `CV_SKILL_ROOT` as the absolute path to this skill package.
+- Read bundled templates, examples, tests, and docs from `CV_SKILL_ROOT`.
+- If `CV_SKILL_ROOT` is unknown, stop and ask the user for it.
+- Do not guess repository-relative template paths from the current working directory.
 
 ## Authoring Rules
 
 - Do not begin drafting until `resume-intake-and-extraction` has finished and `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md` exist.
-- Do not draft while any `missing-blocking` item remains.
+- Do not draft while any `missing-blocking` item remains unresolved or unaudited as omitted with explicit user approval.
 - Do not invent achievements, metrics, dates, titles, venues, publication status, advisor names, or ownership details.
+- Do not generalize, upgrade, or reframe facts unless broader wording is source-backed or user-confirmed.
 - If a detail is `needs-confirmation`, do not smooth it into final resume prose. Keep it out of the final bullet, or replace it with wording that stays strictly within `resolved` facts, and preserve the unresolved item in working notes.
 - One page is preferred when readable; two pages are acceptable when compression would materially damage quality or target fit.
 - Research resumes prioritize education, research, selected publications, selected projects, and scholarly traceability. Do not create a long academic CV.
@@ -33,13 +42,15 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 
 - Use `\documentclass{common/resume}` in `work/resume.tex`.
 - Ensure the workspace contains `work/common/resume.cls`; do not rely on relative paths back into the repository's `templates/` directory.
-- Keep `output/resume.tex` reproducible from inside the generated workspace.
+- Copy final source to `output/resume.tex` and copy `work/common/resume.cls` to `output/common/resume.cls` so output compiles from inside `output/`.
+- Build the working draft from `work/` with `xelatex -interaction=nonstopmode -halt-on-error resume.tex` when XeLaTeX is available.
 
 ## Claim Map Closure
 
 - Treat the intake claim map as a starting point, not a final artifact.
 - After writing final bullets and sections, compare `work/resume.tex` against `work/claim-source-map.md`.
 - Add or revise rows so every final contact line, role, employer, date, degree, publication, skill grouping, project description, and bullet claim maps to source material with `resolved` state.
+- Include a summary sentence stating that every final factual claim is covered by a `resolved` row.
 - Keep `needs-confirmation` and `omitted-unresolved` rows only for working context or documented omissions; they must not appear in final prose.
 
 ## ATS And Photo Handling

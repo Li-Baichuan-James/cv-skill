@@ -17,15 +17,18 @@ Before review, require these files in the current workspace:
 - `work/requirements-summary.md`
 - `work/claim-source-map.md`
 - `work/resume.tex`
+- `work/common/resume.cls`
 
 If any are missing, return a blocker instead of finalizing.
 
 ## Review Checklist
 
+- `work/claim-source-map.md` uses the six-column schema: `Claim`, `Source`, `Evidence detail`, `State`, `Final handling`, `Notes`
 - every final factual claim is supported by a `resolved` entry in `work/claim-source-map.md`
-- no `[confirm]` markers remain in a version presented as final
+- no `[confirm]` markers or unresolved placeholders remain in a version presented as final
 - no `\placeholder{...}` tokens or stock template bullets remain in a version presented as final
-- no `missing-blocking` claims remain in `work/claim-source-map.md`
+- no `missing-blocking` claims remain unless audited as omitted and absent from final prose
+- every omitted blocking item records reason, explicit user approval, and impact on final wording
 - no `needs-confirmation` or `omitted-unresolved` claim appears in final resume prose
 - no visible operator guidance, template notes, or non-ATS warnings remain in final resume prose
 - wording is professional and internally consistent
@@ -35,16 +38,29 @@ If any are missing, return a blocker instead of finalizing.
 
 ## Build Requirements
 
-- Compile `work/resume.tex` with XeLaTeX from the generated workspace, not from the repository template directory
-- Require `work/common/resume.cls` and `\documentclass{common/resume}` so the build is workspace-local
-- Copy final source into `output/resume.tex`
+- Compile `work/resume.tex` with XeLaTeX from `work/`, not from the repository template directory.
+- Require `work/common/resume.cls` and `\documentclass{common/resume}` so the build is workspace-local.
+- Copy final source into `output/resume.tex`.
+- Copy `work/common/resume.cls` to `output/common/resume.cls`.
+- Compile `output/resume.tex` from inside `output/` when `xelatex` is available.
 - Preserve review notes and build logs under `work/`
 - Keep all outputs inside the current workspace folder
+
+Recommended command block:
+
+```powershell
+Push-Location work; xelatex -interaction=nonstopmode -halt-on-error resume.tex *> build.log; Pop-Location
+Copy-Item work/resume.tex output/resume.tex
+New-Item -ItemType Directory -Force output/common
+Copy-Item work/common/resume.cls output/common/resume.cls
+Push-Location output; xelatex -interaction=nonstopmode -halt-on-error resume.tex *> ../work/output-build.log; Pop-Location
+```
 
 ## Failure Handling
 
 - Fix and rebuild only when the issue is a local LaTeX assembly problem inside the current draft, such as escaping, missing braces, package use already implied by the template, or other source-level mistakes that can be corrected without guessing new resume facts or changing scope.
 - Stop and report a blocker when the build failure depends on missing user facts, ambiguous content decisions, missing external assets, unavailable tooling, or template changes outside the current resume draft.
+- If PDF build tooling is unavailable, deliver `output/resume.tex` and `output/common/resume.cls`, preserve the attempted build note/log, and do not claim `output/resume.pdf` was produced.
 - If factual uncertainty remains, return a review state instead of claiming the resume is final.
 - If the draft contains ATS-risk choices such as a photo or multi-column layout, state that explicitly and confirm that the delivered version matches the user's accepted tradeoff.
 
