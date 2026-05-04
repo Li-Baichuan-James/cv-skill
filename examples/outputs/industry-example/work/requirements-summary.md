@@ -2,7 +2,7 @@
 
 ## Target
 
-- Audience: industry software/data engineering roles
+- Audience: industry software engineering roles
 - Format: ATS-friendly 1-2 page resume
 - Template: `templates/industry/ats/`
 - Photo: omitted from primary version because ATS compatibility is the target
@@ -13,8 +13,9 @@
 
 ## Resolved Facts
 
-- Candidate name, contact details, experience, projects, education, and skills are provided in the sample input.
-- Impact metrics used in final prose are copied from the sample input.
+- Candidate name, contact details, experience, projects, and skills are provided in the sample input.
+- No education or candidate location is provided in the sample input.
+- Final prose uses only source-backed facts from the sample input.
 
 ## Blocking Items
 
