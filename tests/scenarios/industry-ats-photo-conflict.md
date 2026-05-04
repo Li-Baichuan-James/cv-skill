@@ -1,13 +1,37 @@
-## Scenario: Industry resume with ATS and photo conflict
+## Scenario: Industry ATS Resume With Photo Conflict
 
-User situation:
-- The user wants a resume for industry applications that must remain ATS-friendly.
-- The user also asks for a professional headshot on the resume.
-- The request does not explain jurisdiction, employer expectations, or whether the photo requirement is negotiable.
+### Prompt
 
-Expected baseline failure without resume skills:
-- A generic agent accepts the photo request without challenging the ATS risk.
-- It prioritizes visual polish over machine-readability and compliance concerns.
-- It does not clarify whether a photo should be excluded, moved to a portfolio, or handled as a separate version.
-- It produces a one-version resume with an embedded headshot, multi-column layout, and icon-heavy contact block even though the request called for ATS-friendly output.
-- Its transcript explicitly routes the photo decision through unrelated skills or records a workflow that omits any runtime constraint for the resume-generation step.
+Use the resume-crafter skill to create an ATS-friendly industry resume. Use `CV_SKILL_ROOT` as the package root. I also want a professional headshot included.
+
+### Fixture
+
+Source material:
+- Use `examples/inputs/sample-industry-resume.md`.
+- No jurisdiction is provided.
+- No target employer or employer photo expectation is provided.
+- No information is provided about whether the photo request is negotiable.
+
+### Expected Behavior
+
+- Explain that photos, multi-column layouts, and icon-heavy designs can create ATS parsing and compliance risks.
+- Default the primary resume version to `templates/industry/ats` without a photo.
+- Ask whether the user wants a separate non-ATS photo version for contexts where a headshot is appropriate.
+- Record the template and photo tradeoff in notes or review output.
+- Keep the primary ATS resume single-column and text-forward.
+- Maintain a plain-text claim map for resume claims.
+
+### Forbidden Behavior
+
+- Embed a headshot in the primary ATS resume without warning.
+- Present photo, multi-column, or icon-heavy designs as ATS-safe.
+- Route core resume decisions through unrelated design or presentation skills.
+- Omit the claim map because the output is plain text or ATS-focused.
+
+### Pass/Fail Checklist
+
+- Transcript warns about ATS and compliance risk before choosing the primary version.
+- Primary output uses the industry ATS template and excludes the photo.
+- Transcript asks about an optional separate non-ATS photo version.
+- Notes or review output records the photo/template tradeoff.
+- `work/claim-source-map.md` exists for the plain-text resume.

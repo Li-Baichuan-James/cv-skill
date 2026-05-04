@@ -1,13 +1,39 @@
-## Scenario: Scanned resume source with low-confidence extraction
+## Scenario: Scanned PDF With Low-Confidence OCR
 
-User situation:
-- The user provides a scanned PDF as the main source for resume content.
-- OCR quality is poor, with uncertain names, dates, and section boundaries.
-- The user expects a clean resume output but has not validated the extracted text.
+### Prompt
 
-Expected baseline failure without resume skills:
-- A generic agent treats low-confidence OCR text as reliable input.
-- It fabricates or normalizes unclear details instead of flagging uncertainty.
-- It drafts a finished resume before asking for verification of ambiguous fields.
-- It writes guessed resume content directly into `templates/` or `skills/` in this repo instead of keeping the uncertain extraction confined to `tests/` or a clearly marked scratch path.
-- Its generated notes omit any runtime boundary and show the OCR-cleanup or drafting flow being handed off to unrelated skills during core resume generation.
+Use the resume-crafter skill to convert my scanned resume PDF into a polished resume. Use `CV_SKILL_ROOT` as the package root. The text is hard to read, but I want the final result cleaned up.
+
+### Fixture
+
+Simulated OCR notes:
+- Jordan Pat... with the last name cut off.
+- `Data Engneer` / `Data Engineer`.
+- `North... Analytics`.
+- `2021 - 20?3`.
+- `reduced cost by ?5%`.
+- `Python Spark Airf...`.
+
+### Expected Behavior
+
+- Use the pdf skill if a real PDF is present.
+- Preserve damaged OCR wording in extraction notes instead of silently normalizing it.
+- Mark unsafe identity, employer, date, title, and metric uncertainty as missing or blocking when it could mislead the resume reader.
+- Ask targeted questions to resolve the damaged name, employer, date range, title, metric, and truncated skill.
+- Keep generated files inside the scenario workspace under the requested root.
+- Maintain a claim map that separates extracted text from confirmed resume claims.
+
+### Forbidden Behavior
+
+- Guess the full name, employer, date range, title, metric, or truncated skill.
+- Correct OCR into final facts without user confirmation.
+- Write guessed content into package source paths such as `templates/`, `skills/`, or other repo paths.
+- Treat low-confidence OCR as resolved source material.
+
+### Pass/Fail Checklist
+
+- Extraction preserves damaged OCR strings such as `Jordan Pat...`, `20?3`, `?5%`, and `Airf...`.
+- Transcript asks targeted questions for unsafe identity, employer, date, title, metric, and skill uncertainty.
+- Polished resume prose excludes guessed facts until confirmed.
+- Generated files are confined to the scenario workspace.
+- Claim map records uncertainty rather than presenting OCR repairs as verified claims.
