@@ -14,8 +14,9 @@ Resume Crafter is organized as four installed runtime skills:
 1. `resume-crafter` confirms the resume scope and resolves `CV_SKILL_ROOT`.
 2. Intake extracts source facts and records uncertainty.
 3. Follow-up answers are written back into the workspace before drafting resumes.
-4. Authoring creates `output/resume.tex` and `output/common/resume.cls` from templates under `CV_SKILL_ROOT`.
-5. Review resolves every final claim, validates the claim map, and builds `output/resume.pdf` when `xelatex` is available.
+4. Authoring chooses the template, copies `templates/common/resume.cls` to `work/common/resume.cls`, writes `work/resume.tex`, and updates the claim map.
+5. Review-and-delivery checks safety, risk, and build readiness; copies final source and class to `output/resume.tex` and `output/common/resume.cls`; and verifies an output-local build when tooling is available.
+6. Final artifacts are `output/resume.tex`, `output/common/resume.cls`, and `output/resume.pdf` when available.
 
 ## Asset Root
 
