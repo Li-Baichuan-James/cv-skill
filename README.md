@@ -1,63 +1,217 @@
-# Resume Crafter
+# Resume Crafter Skill
 
-Resume Crafter is a four-skill package that turns chat notes, Word documents, PDFs, screenshots, or existing resume material into a factual 1-2 page LaTeX resume plus PDF when local tooling is available.
+<div align="center">
 
-## Primary Entrypoint
+## 简历.skill
+
+---
+
+> 别让 AI 给你的简历加戏，也别让 Word 排版把你送走。
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet)](https://claude.ai/code)
+[![AgentSkills](https://img.shields.io/badge/AgentSkills-Standard-green)](https://agentskills.io)
+[![Bilingual](https://img.shields.io/badge/README-中文%20%7C%20English-4c9a2a)](#中文)
+
+[中文](#中文) | [English](#english)
+
+</div>
+
+---
+
+## 中文
+
+还在把旧简历、项目经历、PDF、Word、截图、聊天记录一股脑丢给 AI，然后收到一份“看起来很强，但仔细一看全是幻觉”的简历？
+
+`简历.skill` 是一套面向 OpenCode / Claude Code / 其他支持 skills 的简历制作 agent workflow。它不追求花里胡哨地“美化人生”，而是帮你把真实材料提取出来、整理清楚、压缩成 1-2 页，并交付可以复现编译的 LaTeX 简历源文件；本地 LaTeX 环境可用时，还会生成 PDF。
+
+简单说：你负责提供真实经历，它负责把材料读清楚、问清楚、写清楚、验清楚。
+
+### 安装
+
+复制给 OpenCode / Claude Code / 其他支持 skills 的 LLM agent：
+
+```text
+Fetch and follow instructions from:
+https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
+```
+
+### 快速开始
+
+1. 按 `INSTALL.md` 完成安装与验证，让 agent 安装四个 bundled skills。
+
+```text
+https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
+```
+
+2. 保留完整仓库作为模板和验证资源目录，并设置 `CV_SKILL_ROOT`，例如：
+
+```text
+CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill
+```
+
+3. 在会话里自然描述需求即可。例如：
+
+```text
+Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill.
+帮我把这份旧简历改成 1-2 页英文 ATS 简历，目标岗位是 backend software engineer。
+```
+
+4. 也可以直接说明语言、方向、材料范围和输出偏好：
+
+```text
+请用中文生成一页简历，重点突出科研项目和工程经历。如果信息不确定，先问我，不要自己编。
+```
+
+### 它适合做什么
+
+- 从旧简历改写一份 1-2 页 ATS 友好的英文简历
+- 从聊天记录、项目说明、论文经历、实习经历中整理第一版简历
+- 把长篇学术 CV 压缩成简洁 research resume
+- 从 `.docx`、`.pdf`、截图或混合材料中提取信息并重写
+- 生成可继续编辑、可本地编译的 LaTeX 简历
+- 在本地 `xelatex` 可用时生成最终 PDF
+
+### 不适合做什么
+
+- 不写长篇 academic CV；如果你给的是长 CV，它会建议压缩成 1-2 页 research resume
+- 不凭空捏造实习、论文、奖项、指标或学校信息
+- 不承诺“包过 ATS”或“保证拿 offer”
+- 不把聊天里的灵感当成事实，除非你确认它可以写进简历
+
+### 用户侧流程（你会看到什么）
+
+1. Agent 先做 intake：读取聊天、Word、PDF、截图或其他材料
+2. 信息不清楚时会停下来问，不会硬猜
+3. 起草前先整理需求、来源和约束
+4. 简历中的最终表述会进入 `work/claim-source-map.md`
+5. 交付时输出 `work/` 和 `output/`，方便复查和继续编译
+6. 如果本地有 `xelatex`，会尝试生成 `resume.pdf`；如果没有，会说明 PDF 被环境阻塞
+
+### 核心特性
+
+- **事实优先**：先提取，后写作；缺信息就问，不靠脑补补齐
+- **可追踪**：关键 claim 对应来源、位置、原始表述或用户确认
+- **可复现**：`output/resume.tex` 和 `output/common/resume.cls` 放在一起，方便离线重编译
+- **多模板**：支持 industry ATS、带照片版、research resume、中文标准模板
+- **边界清楚**：只使用四个简历 skills，必要时配合 `docx` / `pdf` 读取源材料
+- **可验证**：仓库提供 `tools/verify.ps1` 检查技能、模板、测试场景和示例输出
+
+### 模板类型
+
+| 模板 | 适用场景 |
+| --- | --- |
+| `templates/industry/ats` | 面向企业投递的 ATS 友好英文简历 |
+| `templates/industry/photo` | 明确适合或用户明确要求照片布局的简历 |
+| `templates/research/ats` | 从学术材料压缩出的 1-2 页 research resume |
+| `templates/zh/standard` | 中文标准简历 |
+
+### 与 `docx` / `pdf` companion skills 的关系
+
+- `docx` 负责读取或提取 Word 简历材料
+- `pdf` 负责读取、提取、检查 PDF 简历材料
+- `resume-crafter` 负责简历 workflow：材料归一化、事实核查、写作、审阅、打包和交付
+- 简单说：`docx` / `pdf` 帮 agent 读清楚文件，`resume-crafter` 负责把简历做完整
+
+### 仓库内容
+
+- `skills/`：四个可安装的 skill 入口
+- `templates/`：LaTeX 简历模板和共享 class
+- `examples/`：示例输入与可复查输出
+- `tests/`：场景测试和 baseline
+- `docs/`：架构、贡献、发布和验证说明
+- `tools/verify.ps1`：本地验证脚本
+
+### 许可说明
+
+本仓库的分发、复用与镜像以仓库内现有的 `LICENSE` 文件为准。
+
+---
+
+## English
+
+`resume-crafter` is a four-skill package for producing factual 1-2 page LaTeX resumes from chat notes, existing resumes, Word documents, PDFs, screenshots, and mixed source material.
+
+The package is designed around source discipline: extract first, clarify blockers, draft only supported claims, review factual risk, and deliver output-local LaTeX files that can be recompiled outside the working directory. When a local XeLaTeX environment is available, the workflow can also produce `resume.pdf`.
+
+### Installation
+
+Tell your LLM agent:
+
+```text
+Fetch and follow instructions from:
+https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
+```
+
+### Primary Entrypoint
 
 Invoke `resume-crafter` for user-facing resume work.
 
-Supporting skills:
+Bundled supporting skills:
 
 - `resume-intake-and-extraction`
 - `resume-authoring-and-assembly`
 - `resume-review-and-delivery`
 
-## Use Cases
+### Quick Start
 
-- Create a new resume from chat-provided requirements and source material.
-- Convert an existing resume to LaTeX.
-- Adapt research or academic material to a concise 1-2 page resume.
-- Rewrite an industry resume for ATS-focused review.
+1. Install and validate the package through `INSTALL.md`:
 
-## Scope Warning
+```text
+https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
+```
 
-This package does not produce long academic CVs. If a user asks for a long CV, offer a concise research resume instead and keep the deliverable within the 1-2 page resume scope.
+2. Keep the full repository checkout available as the asset root and provide it as `CV_SKILL_ROOT`:
 
-## Quickstart
+```text
+CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill
+```
 
-1. Install the four folders in `skills/` into the agent skill directory.
-2. Keep the repository checkout available as the asset root for templates, examples, tests, and documentation.
-3. Record the checkout path as `CV_SKILL_ROOT`, for example `C:\Users\lbc\.config\opencode\cv-skill`.
-4. Ensure `xelatex --version` works if PDF builds are required.
-5. Prompt the agent with the primary skill and asset root, for example: `Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill. Build a 1-2 page ATS resume from the attached resume and my target role notes.`
+3. Ask naturally for the resume deliverable you want. For example:
 
-## Asset Root Contract
+```text
+Use resume-crafter. CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill.
+Build a 1-2 page ATS resume from the attached resume and my target backend software engineer notes.
+```
 
-`CV_SKILL_ROOT` is the absolute path to the full repository checkout. Installed skills are runtime entrypoints only. Templates, examples, tests, docs, and verification tools stay under `CV_SKILL_ROOT`. If `CV_SKILL_ROOT` is unknown, the agent must ask for it before using repository assets.
+You can also specify language, template family, source scope, or review constraints directly:
 
-## Guarantees
+```text
+Create a concise research resume from these academic materials. Keep only source-backed claims and ask before using uncertain metrics.
+```
+
+### Intended Use
+
+- Create a new 1-2 page resume from chat-provided requirements and source material
+- Convert an existing resume into LaTeX
+- Rewrite an industry resume for ATS-oriented review
+- Adapt academic or research material into a concise research resume
+- Produce Chinese-language resumes using the standard Chinese template
+- Package reproducible LaTeX source and PDF output when local tooling is available
+
+### Scope Boundaries
+
+This package does not produce long academic CVs. If the input is a long academic CV, the workflow should offer a concise 1-2 page research resume instead.
+
+The workflow must not invent unsupported employers, degrees, publications, awards, dates, metrics, or tools. Ambiguous or missing facts should be clarified or omitted rather than guessed.
+
+### Workflow Guarantees
 
 - Extraction happens before drafting.
 - Blockers stop the flow instead of being guessed around.
 - Every final claim is resolved in `work/claim-source-map.md`.
 - Each run uses a fresh workspace.
-- Output-local reproducible source and PDF are delivered when tooling is available.
+- Output-local reproducible source is delivered through `output/resume.tex` and `output/common/resume.cls`.
+- `resume.pdf` is produced when local `xelatex` is available and compilation succeeds.
 
-## Template Matrix
-
-| Template | Intended use |
-| --- | --- |
-| `templates/industry/ats` | ATS-friendly industry resumes. |
-| `templates/industry/photo` | Industry resumes where a photo layout is explicitly appropriate. |
-| `templates/research/ats` | Concise research resumes adapted from academic material. |
-| `templates/zh/standard` | Chinese-language standard resume format. |
-
-## Expected Workspace
+### Expected Workspace
 
 ```text
 resume-workspace-YYYYMMDD-HHMMSS/
   work/
+    requirements-summary.md
     claim-source-map.md
+    review.md
     common/
       resume.cls
   output/
@@ -73,15 +227,51 @@ Compile from the directory containing `resume.tex`:
 xelatex -interaction=nonstopmode -halt-on-error resume.tex
 ```
 
-If `xelatex` is unavailable, provide `output/resume.tex` and `output/common/resume.cls`, and report that PDF output is unavailable because the LaTeX engine is missing.
+If `xelatex` is unavailable, the workflow should provide `output/resume.tex` and `output/common/resume.cls`, then report that PDF output is unavailable because the LaTeX engine is missing.
 
-## Repository Layout
+### Template Matrix
 
-```text
-skills/                  Four installed skill entrypoints
-templates/               Resume templates and shared LaTeX class assets
-examples/                Example inputs and expected workflows
-tests/                   Skill and packaging test fixtures
-docs/                    Architecture, contribution, publishing, and verification docs
-tools/verify.ps1         Repository verification helper
+| Template | Intended use |
+| --- | --- |
+| `templates/industry/ats` | ATS-friendly industry resumes |
+| `templates/industry/photo` | Industry resumes where a photo layout is explicitly appropriate |
+| `templates/research/ats` | Concise research resumes adapted from academic material |
+| `templates/zh/standard` | Chinese-language standard resume format |
+
+### Dependencies And Companion Skills
+
+- `resume-crafter` is the primary user-facing entrypoint.
+- `resume-intake-and-extraction` normalizes chat, Word, PDF, screenshot, and mixed source material.
+- `resume-authoring-and-assembly` drafts the 1-2 page LaTeX resume source.
+- `resume-review-and-delivery` reviews factual safety and packages final outputs.
+- Upstream `docx` is used when Word source material must be read or extracted.
+- Upstream `pdf` is used when PDF source material must be read or inspected.
+- Host image or OCR capability is required for screenshots or scanned sources.
+- `xelatex` is required for local PDF builds.
+
+### Asset Root Contract
+
+`CV_SKILL_ROOT` is the absolute path to the full repository checkout. Installed skill folders are runtime entrypoints only. Templates, examples, tests, docs, and verification tools remain under `CV_SKILL_ROOT`. If `CV_SKILL_ROOT` is unknown, the agent must ask for it before using repository assets.
+
+### Verification
+
+Run the repository verifier before publishing or after changing skills, templates, tests, examples, or installation docs:
+
+```powershell
+tools/verify.ps1
 ```
+
+When `xelatex` is available, the verifier compiles template variants in temporary directories. If `xelatex` is unavailable, compile checks are skipped locally and should be run in an environment with XeLaTeX before publishing a verified release.
+
+### Repository Contents
+
+- `skills/`: four installed skill entrypoints
+- `templates/`: resume templates and shared LaTeX class assets
+- `examples/`: example inputs and expected workflows
+- `tests/`: skill and packaging test fixtures
+- `docs/`: architecture, contribution, publishing, and verification docs
+- `tools/verify.ps1`: repository verification helper
+
+### License
+
+Distribution, reuse, and mirroring of this repository are governed by the `LICENSE` file included in the repository.
