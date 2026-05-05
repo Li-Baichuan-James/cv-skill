@@ -35,10 +35,11 @@ Do not produce cover letters, slide decks, portfolios, unrelated document work, 
 4. Copy or place all source artifacts under `input/` and keep notes, extraction, and drafts under `work/`.
 5. Identify whether the target is industry, research-oriented, Chinese standard, or photo/visual.
 6. Invoke `resume-intake-and-extraction` before any drafting.
-7. Ask only targeted questions needed to resolve `missing-blocking` or high-risk uncertainty.
-8. After answers arrive, update `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md` with the user confirmations.
-9. Invoke `resume-authoring-and-assembly` only after all `missing-blocking` items are resolved or audited as omitted with explicit approval.
-10. Invoke `resume-review-and-delivery` to review, build, and package the outputs.
+7. Identify `missing-blocking` items and quality-critical unknowns before authoring.
+8. Ask targeted confirmation questions for quality-critical unknowns; do not downgrade them to avoid interruption.
+9. After answers arrive, update `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md` with the user confirmations.
+10. Invoke `resume-authoring-and-assembly` only after all `missing-blocking` items are resolved or audited as omitted with explicit approval.
+11. Invoke `resume-review-and-delivery` to review, build, and package the outputs.
 
 ## Required Working Files
 
@@ -68,6 +69,14 @@ Final output eligibility:
 - `omitted-unresolved`: records an intentional omission and must not appear in final prose.
 - `missing-blocking`: blocks authoring and finalization until resolved or audited as omitted with explicit user approval.
 
+## Quality-Critical Unknowns
+
+Some unknowns are too important to silently omit. If an unknown affects identity, headline, target role, language-localized presentation, required or user-visible contact-block choices, user-explicit requirements, or any content whose omission would make the resume visibly worse or mismatched, mark it `missing-blocking` and ask a targeted question before drafting.
+
+Do not resolve quality-critical uncertainty by guessing. Do not resolve it by silently deleting the field. Omission is allowed only after explicit user approval recorded in the omission audit.
+
+Use a brainstorming-style question approach: ask questions that clarify purpose, constraints, and success criteria; ask one question at a time when the answer changes the next decision; use concise multiple-choice options when they reduce friction; and batch only the minimal independent blocking facts needed to unblock drafting.
+
 ## Omission Audit
 
 Record every intentionally omitted blocking item in `work/requirements-summary.md` with:
@@ -88,12 +97,12 @@ Record every intentionally omitted blocking item in `work/requirements-summary.m
 
 ## High-Risk Uncertainty
 
-Treat these as high-risk until resolved, omitted, or explicitly accepted by the user:
+Unresolved high-risk items must be resolved or audited as omitted with explicit user approval and absent from final prose:
 
-- identity, contact, degree, school, employer, title, date, location, or chronology ambiguity
+- identity, localized display name, contact, degree, school, employer, title, date, location, or chronology ambiguity
 - publication authorship, venue, status, advisor, award, grant, or patent ambiguity
 - metrics, ownership scope, impact claims, tool lists, and leadership claims not directly source-backed
-- ATS/photo tradeoffs, language/template mismatch, or any choice that could make the resume misleading
+- ATS/photo tradeoffs, language/template mismatch, header/display choices, or any choice that could make the resume misleading or visibly mismatched to the requested deliverable
 
 ## Runtime Boundaries
 

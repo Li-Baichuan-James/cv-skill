@@ -35,10 +35,18 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 - Do not draft unless every omitted blocking item has an omission audit with reason, explicit user approval, and impact on final wording.
 - Do not invent achievements, metrics, dates, titles, venues, publication status, advisor names, or ownership details.
 - Do not generalize, upgrade, or reframe facts unless broader wording is source-backed or user-confirmed.
-- If a detail is `needs-confirmation`, do not smooth it into final resume prose. Keep it out of the final bullet, or replace it with wording that stays strictly within `resolved` facts, and preserve the unresolved item in working notes.
+- If a quality-critical unknown remains unresolved, stop and return to intake for a targeted user question; do not draft around it.
+- If a non-critical detail is `needs-confirmation`, do not smooth it into final resume prose. Keep it out of the final bullet, or replace it with wording that stays strictly within `resolved` facts, and preserve the unresolved item in working notes.
+- Do not resolve quality-critical uncertainty by silently deleting the affected field. Omission is allowed only after explicit user approval recorded in the omission audit.
 - One page is preferred when readable; two pages are acceptable when compression would materially damage quality or target fit.
 - Research resumes prioritize education, research, selected publications, selected projects, and scholarly traceability. Do not create a long academic CV.
 - Industry resumes prioritize impact, delivery, stack clarity, and ATS readability.
+
+## Quality-Critical Examples
+
+- Chinese resume requested, source has only a romanized English name, and no confirmed Chinese display name: return to intake and ask how the name should appear.
+- Job resume requested, source spans AI, mobile, and research work, and target role/headline is unknown: ask for the target role or offer concise options before drafting a headline.
+- Phone number missing, email and website are present, and the user did not request phone contact: omit phone with audit; do not block drafting.
 
 ## Template Assembly
 

@@ -52,6 +52,14 @@ Final output eligibility:
 - `omitted-unresolved`: records an intentional omission and must not appear in final prose.
 - `missing-blocking`: blocks authoring and finalization until resolved or audited as omitted with explicit user approval.
 
+## Quality-Critical Unknowns
+
+Treat an uncertain fact as quality-critical when it affects identity/display name, localized name, target role/headline, required or user-visible contact-block choices, required photos, required language/style, user-explicit deliverable requirements, or any content whose omission would make the resume visibly worse or mismatched.
+
+Quality-critical unknowns must be marked `missing-blocking`, not `needs-confirmation`, until the user confirms them or explicitly approves omission. Do not downgrade them merely to keep drafting moving.
+
+Record the exact targeted question that should be asked in `work/requirements-summary.md`. Use a brainstorming-style question: clarify the purpose or constraint, ask one question at a time when it affects the next decision, and offer concise options when helpful.
+
 ## Claim Map Format
 
 Use this six-column table in `work/claim-source-map.md`:
@@ -59,7 +67,8 @@ Use this six-column table in `work/claim-source-map.md`:
 | Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling |
 |---|---|---|---|---|---|
 | Candidate held role X at Y | `input/source.pdf` | p.1, experience section | "Role X, Y" | resolved | use |
-| Led deployment for Z users | `input/screenshot-01.png` | visible project card, metric partly cropped | visible wording unclear; ask user to confirm Z | needs-confirmation | ask or omit |
+| Led deployment for Z users | `input/screenshot-01.png` | visible project card, metric partly cropped | visible wording unclear; ask user to confirm Z | needs-confirmation | ask or keep out of final prose with working-note trace |
+| Chinese display name for a Chinese resume is unknown | `input/source.tex` | header/name line | source only says `LI Baichuan`; ask user how to display name in Chinese resume | missing-blocking | ask before drafting |
 
 This intake map covers source facts and uncertainties. After the final resume prose is drafted, `resume-authoring-and-assembly` must update the table so every final factual claim has a `resolved` row.
 
@@ -86,7 +95,7 @@ When the user answers clarification questions after intake:
 - update `work/extracted.md` with the confirmation wording and date/context of the answer
 - cite the answer as `user confirmation` in `work/claim-source-map.md`
 - change confirmed rows from `missing-blocking` or `needs-confirmation` to `resolved` only when the answer directly supports the final claim
-- keep unresolved rows as `omitted-unresolved` or `missing-blocking`; do not silently delete them
+- keep unresolved non-blocking uncertainty as `needs-confirmation`; keep unresolved quality-critical or blocking uncertainty as `missing-blocking` unless the user explicitly approves omission; do not silently delete unresolved rows
 - update `work/requirements-summary.md` so resolved blockers, remaining blockers, and omission audits stay current
 
 ## Legacy Confidence Labels
@@ -102,6 +111,8 @@ Legacy `high-confidence` and `low-confidence` commentary never controls final ou
 ## Stop Conditions
 
 - If key chronology, identity, publication, title, or impact facts are missing, stop and ask targeted questions before drafting.
+- If a quality-critical unknown exists, stop and ask a targeted question before drafting.
+- Do not resolve quality-critical uncertainty by guessing, silently deleting the field, or converting it to a non-blocking note.
 - If OCR or extraction damage makes facts unreliable, stop and report which fields are unsafe.
 - If source artifacts conflict materially, ask for clarification before writing.
 - Do not synthesize missing dates, names, venues, role scopes, or metrics from context.

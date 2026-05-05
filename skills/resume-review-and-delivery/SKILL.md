@@ -32,6 +32,9 @@ If any are missing, return a blocker instead of finalizing.
 - no `missing-blocking` claims remain unless audited as omitted and absent from final prose
 - every omitted blocking item records reason, explicit user approval, and impact on final wording
 - no `needs-confirmation` or `omitted-unresolved` claim appears in final resume prose
+- no quality-critical content implied by the user's requested language, market, or format is missing unless the omission audit records explicit user approval
+- for Chinese resumes, if the source lacks a confirmed Chinese display name, verify that user confirmation or explicit user-approved omission exists before delivery
+- quality-critical omissions without explicit user approval are blockers, even if the PDF builds successfully
 - no visible operator guidance, template notes, or non-ATS warnings remain in final resume prose
 - wording is professional and internally consistent
 - ATS, photo, language, and layout risks are called out when relevant
@@ -78,6 +81,7 @@ On POSIX systems, prefer the platform package manager when available, such as `b
 - Stop and report a blocker when the build failure depends on missing user facts, ambiguous content decisions, missing external assets, unavailable tooling, or template changes outside the current resume draft.
 - If PDF build tooling is unavailable after attempted installation or activation, preserve the attempted build note/log and return a blocker. `output/resume.tex` and `output/common/resume.cls` may be left in the workspace for debugging, but they are not a completed handoff without `output/resume.pdf`.
 - If factual uncertainty remains, return a review state instead of claiming the resume is final.
+- If quality-critical content was guessed, silently deleted, or omitted without explicit user approval, return a blocker and route back to intake for confirmation.
 - If the draft contains ATS-risk choices such as a photo or multi-column layout, state that explicitly and confirm that the delivered version matches the user's accepted tradeoff.
 
 ## Rework Routing
