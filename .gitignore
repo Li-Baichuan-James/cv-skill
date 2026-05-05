@@ -19,6 +19,9 @@ Thumbs.db
 # Local development worktrees
 .worktrees/
 
+# Local superpowers planning artifacts; not part of the published skill package.
+docs/superpowers/
+
 # Private local font inputs; do not publish without license review.
 templates/common/fonts/
 resume-workspace-*/

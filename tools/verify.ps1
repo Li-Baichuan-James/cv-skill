@@ -202,7 +202,7 @@ if ($BinaryMatches.Count -eq 0) {
 
 $XeLaTeX = Get-Command xelatex -ErrorAction SilentlyContinue
 if ($null -eq $XeLaTeX) {
-    Write-Skip "xelatex not found; template compile checks skipped"
+    Write-Check $false "xelatex is required for verified releases"
 } else {
     $CommonClass = Resolve-RepoPath "templates/common/resume.cls"
     foreach ($TemplateFile in $TemplateFiles | Where-Object { $_ -ne "templates/common/resume.cls" }) {

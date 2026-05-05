@@ -88,6 +88,27 @@ cp -R "$CV_SKILL_ROOT/skills/resume-review-and-delivery" "$SKILL_DIR/"
 pwsh "$CV_SKILL_ROOT/tools/verify.ps1"
 ```
 
+If PowerShell is unavailable, perform this manual repository and installation check instead:
+
+```sh
+test -f "$CV_SKILL_ROOT/skills/resume-crafter/SKILL.md"
+test -f "$CV_SKILL_ROOT/skills/resume-intake-and-extraction/SKILL.md"
+test -f "$CV_SKILL_ROOT/skills/resume-authoring-and-assembly/SKILL.md"
+test -f "$CV_SKILL_ROOT/skills/resume-review-and-delivery/SKILL.md"
+test -f "$CV_SKILL_ROOT/templates/common/resume.cls"
+test -f "$CV_SKILL_ROOT/templates/industry/ats/resume.tex"
+test -f "$CV_SKILL_ROOT/templates/industry/photo/resume.tex"
+test -f "$CV_SKILL_ROOT/templates/research/ats/resume.tex"
+test -f "$CV_SKILL_ROOT/templates/zh/standard/resume.tex"
+test -d "$SKILL_DIR/resume-crafter"
+test -d "$SKILL_DIR/resume-intake-and-extraction"
+test -d "$SKILL_DIR/resume-authoring-and-assembly"
+test -d "$SKILL_DIR/resume-review-and-delivery"
+xelatex --version
+```
+
+Then compile each template from a temporary directory containing `resume.tex` and `common/resume.cls`. All compiles must succeed before treating the package as release-verified.
+
 If `xelatex` is missing on POSIX, install a TeX distribution with the platform package manager, for example:
 
 ```sh
