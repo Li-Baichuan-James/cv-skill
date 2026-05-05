@@ -24,8 +24,11 @@
 ## 中文
 
 还在依赖网页版AI写简历？是不是经常遇到这些糟心问题：AI生成的内容复制回Word，格式变形、排版错乱，得花大量时间手动微调；AI从不主动向你确认信息，凭着脑补瞎编乱造，写出来的经历脱离实际、全是幻觉，根本没法直接投递；生成的简历格式全看天意，字体、间距、布局完全不受控制，想调整却无从下手？
+
 简历.skill 正是为解决这些痛点而生——它是一套面向 OpenCode / Claude Code / Codex 等 agent 的简历制作全自动化工作流，用更专业、更可控的方式，帮你轻松制作高质量简历。
+
 它的核心优势就是精准解决网页版AI的弊端：用LaTeX编写简历，直接交付精致、美观、紧凑的PDF文件，无需手动调整格式；遇到任何不确定的信息点，都会主动停下来逐一向你确认，彻底告别简历“幻觉”；内置多套精选模板，涵盖中文/英文、求职/学术、有/无头像照片等多种场景，格式完全可控，根据你的需求自动选择。
+
 简单说：你负责提供真实经历，它负责把材料读清楚、问清楚、写清楚，最终直接交给你可以直接投递的 pdf 简历文件。
 
 ### 安装
@@ -69,7 +72,7 @@ https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
 3. 起草前先整理需求、来源和约束
 4. 简历中的最终表述会进入 `work/claim-source-map.md`
 5. 交付时输出 `work/` 和 `output/`，方便复查和继续编译
-6. 如果本地有 `xelatex`，会尝试生成 `resume.pdf`；如果没有，会说明 PDF 被环境阻塞
+6. 你会得到可以直接投递的 pdf 简历文件，以及对应的latex源代码
 
 
 ### 核心特性
@@ -85,9 +88,9 @@ https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
 ### 仓库内容
 
 - `skills/`：四个可安装的 skill 入口
-- `templates/`：LaTeX 简历模板和共享 class
-- `examples/`：示例输入与可复查输出
-- `tests/`：场景测试和 baseline
+- `templates/`：精选 LaTeX 简历模板
+- `examples/`：示例输入输出
+- `tests/`：场景测试
 - `docs/`：架构、贡献、发布和验证说明
 - `tools/verify.ps1`：本地验证脚本
 
