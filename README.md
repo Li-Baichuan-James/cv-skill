@@ -136,9 +136,9 @@ https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
 
 ## English
 
-`resume-crafter` is a four-skill package for producing factual 1-2 page LaTeX resumes from chat notes, existing resumes, Word documents, PDFs, screenshots, and mixed source material.
+`resume-crafter` is a four-skill package for producing factual 1-2 page resumes from chat notes, existing resumes, Word documents, PDFs, screenshots, and mixed source material.
 
-The package is designed around source discipline: extract first, clarify blockers, draft only supported claims, review factual risk, and deliver output-local LaTeX files that can be recompiled outside the working directory. When a local XeLaTeX environment is available, the workflow can also produce `resume.pdf`.
+The package is designed around source discipline: extract first, clarify blockers, draft only supported claims, review factual risk, and deliver a directly submittable `output/resume.pdf` plus corresponding output-local LaTeX source that can be recompiled outside the working directory.
 
 ### Installation
 
@@ -170,7 +170,7 @@ https://raw.githubusercontent.com/Li-Baichuan-James/cv-skill/main/INSTALL.md
 2. Keep the full repository checkout available as the asset root and provide it as `CV_SKILL_ROOT`:
 
 ```text
-CV_SKILL_ROOT=C:\Users\lbc\.config\opencode\cv-skill
+CV_SKILL_ROOT=<absolute path to the full cv-skill checkout>
 ```
 
 3. Ask naturally for the resume deliverable you want. For example:
@@ -192,7 +192,7 @@ Create a concise research resume from these academic materials. Keep only source
 - Rewrite an industry resume for ATS-oriented review
 - Adapt academic or research material into a concise research resume
 - Produce Chinese-language resumes using the standard Chinese template
-- Package reproducible LaTeX source and PDF output when local tooling is available
+- Package a directly submittable PDF and reproducible LaTeX source
 
 ### Scope Boundaries
 
@@ -206,8 +206,9 @@ The workflow must not invent unsupported employers, degrees, publications, award
 - Blockers stop the flow instead of being guessed around.
 - Every final claim is resolved in `work/claim-source-map.md`.
 - Each run uses a fresh workspace.
-- Output-local reproducible source is delivered through `output/resume.tex` and `output/common/resume.cls`.
-- `resume.pdf` is produced when local `xelatex` is available and compilation succeeds.
+- Final delivery requires `output/resume.pdf`.
+- Corresponding reproducible source is delivered through `output/resume.tex` and `output/common/resume.cls`.
+- If XeLaTeX is missing, the workflow attempts to install or activate a XeLaTeX-capable environment; if PDF generation still cannot complete, final delivery is blocked.
 
 ### Expected Workspace
 
@@ -232,7 +233,7 @@ Compile from the directory containing `resume.tex`:
 xelatex -interaction=nonstopmode -halt-on-error resume.tex
 ```
 
-If `xelatex` is unavailable, the workflow should provide `output/resume.tex` and `output/common/resume.cls`, then report that PDF output is unavailable because the LaTeX engine is missing.
+If `xelatex` is unavailable, the workflow attempts to install or activate a XeLaTeX-capable TeX distribution. If installation or compilation fails, the run reports a blocker instead of presenting source files alone as final delivery.
 
 ### Template Matrix
 
@@ -252,7 +253,7 @@ If `xelatex` is unavailable, the workflow should provide `output/resume.tex` and
 - Upstream `docx` is used when Word source material must be read or extracted.
 - Upstream `pdf` is used when PDF source material must be read or inspected.
 - Host image or OCR capability is required for screenshots or scanned sources.
-- `xelatex` is required for local PDF builds.
+- `xelatex` is required for final PDF delivery.
 
 ### Asset Root Contract
 
@@ -266,7 +267,7 @@ Run the repository verifier before publishing or after changing skills, template
 tools/verify.ps1
 ```
 
-When `xelatex` is available, the verifier compiles template variants in temporary directories. If `xelatex` is unavailable, compile checks are skipped locally and should be run in an environment with XeLaTeX before publishing a verified release.
+The verifier compiles template variants in temporary directories when `xelatex` is installed. Publishing a verified release requires running these compile checks in an environment with XeLaTeX.
 
 ### Repository Contents
 

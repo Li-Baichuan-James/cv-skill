@@ -82,13 +82,22 @@ Record every intentionally omitted blocking item in `work/requirements-summary.m
 - Intake decides what is known, unknown, or unsafe.
 - Authoring may draft only from `resolved` facts or conservative wording supported by `resolved` claim-map entries.
 - Do not generalize, upgrade, or reframe facts unless broader wording is source-backed or user-confirmed.
-- Review-and-delivery may finalize only when every final factual claim maps to a `resolved` entry, `missing-blocking` items are resolved or audited with clear approval, `[confirm]` markers are cleared, the omission audit is complete, and the build is clean or explicitly unavailable.
+- Review-and-delivery may finalize only when every final factual claim maps to a `resolved` entry, `missing-blocking` items are resolved or audited with clear approval, `[confirm]` markers are cleared, the omission audit is complete, and `output/resume.pdf` exists after a clean output-local build.
 - For ATS-sensitive industry use, default away from photos, multi-column layouts, and icon-heavy contact blocks unless the user explicitly accepts the tradeoff after it is explained.
 - Keep all generated content inside the current run's workspace. Do not write resume output into `skills/`, `templates/`, `docs/`, `examples/`, or repo root paths.
 
+## High-Risk Uncertainty
+
+Treat these as high-risk until resolved, omitted, or explicitly accepted by the user:
+
+- identity, contact, degree, school, employer, title, date, location, or chronology ambiguity
+- publication authorship, venue, status, advisor, award, grant, or patent ambiguity
+- metrics, ownership scope, impact claims, tool lists, and leadership claims not directly source-backed
+- ATS/photo tradeoffs, language/template mismatch, or any choice that could make the resume misleading
+
 ## Runtime Boundaries
 
-- During end-user resume generation, use only these bundled skills: `resume-crafter`, `resume-intake-and-extraction`, `resume-authoring-and-assembly`, and `resume-review-and-delivery`.
+- During end-user resume generation, use only these bundled skills for resume workflow decisions: `resume-crafter`, `resume-intake-and-extraction`, `resume-authoring-and-assembly`, and `resume-review-and-delivery`.
 - Use upstream `docx` only when `.docx` input requires it.
 - Use upstream `pdf` only when `.pdf` input requires it.
 - For image or screenshot input, use the host platform's built-in image reading or OCR path when available. Do not add unrelated OCR or document-generation skills just to handle images.
@@ -96,9 +105,16 @@ Record every intentionally omitted blocking item in `work/requirements-summary.m
 
 ## Output Contract
 
-- Final deliverables: `output/resume.tex`, `output/common/resume.cls`, and `output/resume.pdf` when PDF tooling is available.
-- If PDF tooling is unavailable, deliver `output/resume.tex` and `output/common/resume.cls`, report the unavailable build tooling, and do not claim `output/resume.pdf` was produced.
+- Final deliverables: `output/resume.pdf` as the required final deliverable, plus corresponding source files `output/resume.tex` and `output/common/resume.cls`.
+- If PDF tooling is unavailable, `resume-review-and-delivery` must attempt to install or activate a XeLaTeX-capable environment. If installation or compilation cannot complete, return a blocker; do not present source files alone as final delivery.
 - Both `work/resume.tex` and `output/resume.tex` use `\documentclass{common/resume}`.
 - Working files stay under the generated workspace folder.
 - Preserve `work/review.md` and `work/build.log` when review or build runs.
 - If factual risk remains unresolved, return a review/blocker state instead of presenting the resume as final.
+
+## Rework Routing
+
+- Factual/source blocker: return to `resume-intake-and-extraction` and update `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md`.
+- Wording, section, template, or page-count blocker: return to `resume-authoring-and-assembly`.
+- Local LaTeX assembly error: `resume-review-and-delivery` may fix and rebuild if no new facts or scope changes are needed.
+- Tooling, permission, network, or environment blocker preventing PDF generation: report the blocker through `resume-crafter` and do not finalize.

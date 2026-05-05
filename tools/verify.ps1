@@ -54,6 +54,28 @@ function Get-TextFile {
     return $null
 }
 
+function Test-Contains {
+    param(
+        [string]$RelativePath,
+        [string]$Pattern,
+        [string]$Message
+    )
+
+    $Content = Get-TextFile $RelativePath
+    Write-Check (($null -ne $Content) -and ($Content -match $Pattern)) $Message
+}
+
+function Test-NotContains {
+    param(
+        [string]$RelativePath,
+        [string]$Pattern,
+        [string]$Message
+    )
+
+    $Content = Get-TextFile $RelativePath
+    Write-Check (($null -ne $Content) -and ($Content -notmatch $Pattern)) $Message
+}
+
 $SkillFiles = @(
     "skills/resume-crafter/SKILL.md",
     "skills/resume-intake-and-extraction/SKILL.md",
@@ -125,6 +147,25 @@ Write-Check (($null -ne $ClaimMap) -and ($ClaimMap -like "*$ClaimMapHeader*")) "
 
 $OutputResume = Get-TextFile "examples/outputs/industry-example/output/resume.tex"
 Write-Check (($null -ne $OutputResume) -and ($OutputResume -match "\\documentclass\{common/resume\}")) "industry example output uses \\documentclass{common/resume}"
+
+$ContractFiles = @(
+    "skills/resume-crafter/SKILL.md",
+    "skills/resume-review-and-delivery/SKILL.md",
+    "docs/architecture.md",
+    "docs/contributing.md",
+    "README.md"
+)
+
+foreach ($ContractFile in $ContractFiles) {
+    Test-NotContains $ContractFile "(?i)(resume\.pdf[^\r\n]*(when available|when PDF tooling is available|when local.*available|when xelatex is available)|If .*xelatex.*unavailable.*output/resume\.tex|If PDF build tooling is unavailable.*deliver|source-only)" "$ContractFile does not allow source-only final delivery"
+}
+
+Test-Contains "skills/resume-crafter/SKILL.md" "output/resume\.pdf.*required final deliverable" "resume-crafter requires output/resume.pdf as final deliverable"
+Test-Contains "skills/resume-review-and-delivery/SKILL.md" "unavailable.*attempt.*install" "review-and-delivery attempts install when PDF tooling is unavailable"
+Test-Contains "skills/resume-review-and-delivery/SKILL.md" "blocker" "review-and-delivery treats failed PDF generation as blocker"
+Test-Contains "examples/outputs/academic-example/README.md" "output/resume\.tex" "academic example uses output/resume.tex"
+Test-Contains "examples/outputs/academic-example/README.md" "output/common/resume\.cls" "academic example uses output/common/resume.cls"
+Test-Contains "examples/outputs/academic-example/README.md" "output/resume\.pdf" "academic example uses output/resume.pdf"
 
 $OutputDir = Resolve-RepoPath "examples/outputs/industry-example/output"
 if (Test-Path -LiteralPath $OutputDir -PathType Container) {

@@ -17,4 +17,4 @@
 
 - `output/resume.tex` uses `\documentclass{common/resume}`.
 - `output/common/resume.cls` is included for output-local reproducibility.
-- PDF output is intentionally not checked into the repository.
+- Runtime final delivery requires `output/resume.pdf`; checked examples omit generated PDFs from the repository.

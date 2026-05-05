@@ -30,7 +30,9 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 ## Authoring Rules
 
 - Do not begin drafting until `resume-intake-and-extraction` has finished and `work/extracted.md`, `work/requirements-summary.md`, and `work/claim-source-map.md` exist.
+- Before drafting, confirm `work/claim-source-map.md` uses the exact six-column schema and `work/requirements-summary.md` records target audience, selected template family, gaps, omissions, and user confirmations.
 - Do not draft while any `missing-blocking` item remains unresolved or unaudited as omitted with explicit user approval.
+- Do not draft unless every omitted blocking item has an omission audit with reason, explicit user approval, and impact on final wording.
 - Do not invent achievements, metrics, dates, titles, venues, publication status, advisor names, or ownership details.
 - Do not generalize, upgrade, or reframe facts unless broader wording is source-backed or user-confirmed.
 - If a detail is `needs-confirmation`, do not smooth it into final resume prose. Keep it out of the final bullet, or replace it with wording that stays strictly within `resolved` facts, and preserve the unresolved item in working notes.
@@ -52,6 +54,7 @@ Turn normalized resume material into polished 1-2 page LaTeX while preserving fa
 - Treat the intake claim map as a starting point, not a final artifact.
 - After writing final bullets and sections, compare `work/resume.tex` against `work/claim-source-map.md`.
 - Add or revise rows so every final contact line, summary/profile sentence claim, role, employer, date, degree, publication, skill grouping, project description, and bullet claim maps to source material with `resolved` state.
+- Every `resolved` row added or revised during authoring must include a non-empty source artifact, source locator, and raw wording or user confirmation.
 - Include a summary sentence stating that every final factual claim is covered by a `resolved` row.
 - Keep `needs-confirmation` and `omitted-unresolved` rows only for working context or documented omissions; they must not appear in final prose.
 

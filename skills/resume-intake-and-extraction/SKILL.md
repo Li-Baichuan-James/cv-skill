@@ -79,6 +79,16 @@ For every intentionally omitted blocking item, record in `work/requirements-summ
 - explicit user approval
 - impact on final wording
 
+## Follow-Up Confirmation Update Mode
+
+When the user answers clarification questions after intake:
+
+- update `work/extracted.md` with the confirmation wording and date/context of the answer
+- cite the answer as `user confirmation` in `work/claim-source-map.md`
+- change confirmed rows from `missing-blocking` or `needs-confirmation` to `resolved` only when the answer directly supports the final claim
+- keep unresolved rows as `omitted-unresolved` or `missing-blocking`; do not silently delete them
+- update `work/requirements-summary.md` so resolved blockers, remaining blockers, and omission audits stay current
+
 ## Legacy Confidence Labels
 
 If helpful, also label extraction snippets as commentary only:

@@ -15,8 +15,8 @@ Resume Crafter is organized as four installed runtime skills:
 2. Intake extracts source facts and records uncertainty.
 3. Follow-up answers are written back into the workspace before drafting resumes.
 4. Authoring chooses the template, copies `templates/common/resume.cls` to `work/common/resume.cls`, writes `work/resume.tex`, and updates the claim map.
-5. Review-and-delivery checks safety, risk, and build readiness; copies final source and class to `output/resume.tex` and `output/common/resume.cls`; and verifies an output-local build when tooling is available.
-6. Final artifacts are `output/resume.tex`, `output/common/resume.cls`, and `output/resume.pdf` when available.
+5. Review-and-delivery checks safety, risk, and build readiness; copies final source and class to `output/resume.tex` and `output/common/resume.cls`; and verifies an output-local build.
+6. Final artifacts are `output/resume.pdf`, `output/resume.tex`, and `output/common/resume.cls`. If the PDF cannot be generated after attempting to install or activate XeLaTeX tooling, final delivery is blocked.
 
 ## Asset Root
 
@@ -53,7 +53,7 @@ Compile from the directory containing `resume.tex`:
 xelatex -interaction=nonstopmode -halt-on-error resume.tex
 ```
 
-This makes `output/resume.tex` and `output/common/resume.cls` reproducible outside the original workspace when XeLaTeX and required fonts are installed.
+This makes `output/resume.tex` and `output/common/resume.cls` reproducible outside the original workspace. `output/resume.pdf` is the required final deliverable.
 
 ## Uncertainty Thresholds
 

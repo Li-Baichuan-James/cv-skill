@@ -17,7 +17,7 @@
 | Upstream `docx` skill | When needed | Reads or extracts Word resume sources. |
 | Upstream `pdf` skill | When needed | Reads, extracts, or inspects PDF resume sources. |
 | Host image/OCR capability | When needed | Extracts screenshot or scanned-image material. |
-| `xelatex` | For PDF builds | Compiles `resume.tex` to `resume.pdf`. |
+| `xelatex` | Yes | Required to produce the final deliverable `output/resume.pdf`. |
 | `pandoc` | Optional | Supports document conversion workflows when present. |
 
 ## Runtime Warning
@@ -28,19 +28,37 @@ At content runtime, use only the four bundled resume skills plus upstream `docx`
 
 `CV_SKILL_ROOT` must be the absolute path to the intact full repository checkout. Installed skill folders are entrypoints; templates, examples, tests, docs, and `tools/verify.ps1` remain under `CV_SKILL_ROOT`. If the variable is missing or ambiguous, the agent must ask the user for the checkout path.
 
+## Installer Inputs
+
+- Repository URL: `https://github.com/Li-Baichuan-James/cv-skill`
+- Checkout path: the absolute path where the full repository will remain available as `CV_SKILL_ROOT`
+- Runner type: Claude Code, OpenCode, or Codex-style local runner
+- Target skill directory: the directory where that runner discovers skills
+
+Common target skill directories:
+
+| Runner | Default skill directory |
+| --- | --- |
+| OpenCode | `$HOME/.config/opencode/skills` |
+| Claude Code | `$HOME/.claude/skills` |
+| Codex-style local runner | Runner-specific; inspect runner config or ask the user |
+
+Persist `CV_SKILL_ROOT` in the runner startup environment, project instructions, or runner configuration. Do not rely only on a temporary shell variable unless the same shell launches the agent runtime.
+
 ## Install Steps
 
-1. Clone or copy this repository.
+1. Clone or copy this repository: `git clone https://github.com/Li-Baichuan-James/cv-skill.git <CV_SKILL_ROOT>`.
 2. Keep the checkout intact and available as the asset root.
 3. Install the four bundled skill folders into the target agent skill directory.
 4. Record the checkout path as `CV_SKILL_ROOT`.
-5. Run verification with `tools/verify.ps1` when PowerShell is available, or follow `docs/verification.md` manually.
+5. Ensure `xelatex --version` works. If missing, install a XeLaTeX-capable TeX distribution before final resume delivery.
+6. Run verification with `tools/verify.ps1` when PowerShell is available, or follow `docs/verification.md` manually.
 
 ## PowerShell Example
 
 ```powershell
-$CV_SKILL_ROOT = "C:\Users\lbc\.config\opencode\cv-skill"
-$SkillDir = "$HOME\.config\opencode\skills"
+$CV_SKILL_ROOT = "<ABSOLUTE_PATH_TO_FULL_CV_SKILL_CHECKOUT>"
+$SkillDir = "<ABSOLUTE_PATH_TO_THIS_AGENT_SKILL_DIRECTORY>"
 New-Item -ItemType Directory -Force -Path $SkillDir | Out-Null
 Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-crafter" $SkillDir
 Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-intake-and-extraction" $SkillDir
@@ -49,17 +67,32 @@ Copy-Item -Recurse -Force "$CV_SKILL_ROOT\skills\resume-review-and-delivery" $Sk
 & "$CV_SKILL_ROOT\tools\verify.ps1"
 ```
 
+If `xelatex` is missing on Windows, try one available installer:
+
+```powershell
+winget install --id MiKTeX.MiKTeX -e --accept-package-agreements --accept-source-agreements
+# or: choco install miktex -y
+# or: scoop install latex
+```
+
 ## POSIX Example
 
 ```sh
-CV_SKILL_ROOT="$HOME/.config/opencode/cv-skill"
-SKILL_DIR="$HOME/.config/opencode/skills"
+CV_SKILL_ROOT="<ABSOLUTE_PATH_TO_FULL_CV_SKILL_CHECKOUT>"
+SKILL_DIR="<ABSOLUTE_PATH_TO_THIS_AGENT_SKILL_DIRECTORY>"
 mkdir -p "$SKILL_DIR"
 cp -R "$CV_SKILL_ROOT/skills/resume-crafter" "$SKILL_DIR/"
 cp -R "$CV_SKILL_ROOT/skills/resume-intake-and-extraction" "$SKILL_DIR/"
 cp -R "$CV_SKILL_ROOT/skills/resume-authoring-and-assembly" "$SKILL_DIR/"
 cp -R "$CV_SKILL_ROOT/skills/resume-review-and-delivery" "$SKILL_DIR/"
 pwsh "$CV_SKILL_ROOT/tools/verify.ps1"
+```
+
+If `xelatex` is missing on POSIX, install a TeX distribution with the platform package manager, for example:
+
+```sh
+brew install --cask mactex-no-gui
+sudo apt-get install -y texlive-xetex texlive-latex-recommended texlive-fonts-recommended
 ```
 
 ## Copy/Paste Agent Setup
@@ -73,14 +106,15 @@ Copy these four folders from CV_SKILL_ROOT/skills into the target skill director
 - resume-authoring-and-assembly
 - resume-review-and-delivery
 Check xelatex with: xelatex --version
+If xelatex is missing, install a XeLaTeX-capable TeX distribution before running final resume delivery.
 Check each installed skill has valid frontmatter.
 Run a dry verification using examples/inputs/sample-industry-resume.md.
-The dry run must produce work/common/resume.cls and output/common/resume.cls.
+The dry run must produce work/common/resume.cls, output/common/resume.cls, output/resume.tex, and output/resume.pdf.
 ```
 
 ## Local Dependencies
 
-Check optional converters and PDF build tools:
+Check optional converters and required PDF build tools:
 
 ```sh
 pandoc --version
@@ -93,5 +127,5 @@ For Chinese-language resumes, ensure a CJK-capable font is installed and availab
 
 1. Run `tools/verify.ps1`, or follow `docs/verification.md` if PowerShell is unavailable.
 2. Confirm the claim map uses the six-column schema: `Claim | Source artifact | Source locator | Raw wording or user confirmation | State | Final handling`.
-3. Confirm `output/common/resume.cls` exists beside `output/resume.tex`.
+3. Confirm `output/common/resume.cls` exists beside `output/resume.tex` and `output/resume.pdf` is generated in runtime dry runs.
 4. Confirm runtime instructions do not require unrelated skills beyond the bundled resume skills and upstream `docx`/`pdf` adapters when needed.

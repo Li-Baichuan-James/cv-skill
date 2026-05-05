@@ -29,3 +29,4 @@
 
 - `output/resume.tex` uses `\documentclass{common/resume}`.
 - `output/common/resume.cls` is included so the output folder is rebuildable.
+- Runtime final delivery requires `output/resume.pdf`; generated PDFs are not checked into this repository example.

@@ -8,7 +8,7 @@ Use this procedure before publishing or after changing skills, templates, tests,
 tools/verify.ps1
 ```
 
-The script writes temporary compile workspaces under the OS temp directory when `xelatex` is available. It must not create generated files in repository source paths. If `xelatex` is unavailable, template compile checks are skipped locally and must be performed in an environment with `xelatex` before publishing a verified release.
+The script writes temporary compile workspaces under the OS temp directory when `xelatex` is installed. It must not create generated files in repository source paths. Publishing a verified release requires running compile checks in an environment with `xelatex`.
 
 ## Manual Checks
 
@@ -24,7 +24,7 @@ The script writes temporary compile workspaces under the OS temp directory when 
    - `templates/industry/photo/resume.tex`
    - `templates/research/ats/resume.tex`
    - `templates/zh/standard/resume.tex`
-4. When `xelatex` is available, copy each template variant to a temp folder with `common/resume.cls` and run:
+4. Copy each template variant to a temp folder with `common/resume.cls` and run this command in an environment with `xelatex`:
 
 ```powershell
 xelatex -interaction=nonstopmode -halt-on-error resume.tex
@@ -37,8 +37,8 @@ xelatex -interaction=nonstopmode -halt-on-error resume.tex
    - `work/requirements-summary.md`
    - `work/claim-source-map.md`
    - `work/review.md`
-   - `output/resume.tex`
-   - `output/common/resume.cls`
+    - `output/resume.tex`
+    - `output/common/resume.cls`
 9. Confirm the industry example claim map uses:
 
 ```markdown
@@ -46,3 +46,4 @@ xelatex -interaction=nonstopmode -halt-on-error resume.tex
 ```
 
 10. Confirm no generated PDF or LaTeX auxiliary files are left in `examples/outputs/industry-example/output/`.
+11. Confirm runtime delivery docs require `output/resume.pdf` and do not present source files alone as final delivery.
